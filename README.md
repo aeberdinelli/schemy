@@ -13,15 +13,15 @@ const Schema = require('schemy');
 
 module.exports = new Schema({
     'name': {
-	type: String,
-	required: true
+        type: String,
+        required: true
     },
     'age': {
 	type: Number,
-	required: true
+       required: true
     },
     'pictures': {
-	type: [String]
+        type: [String]
     },
     
     // Schemy has some helpers to validate string formats like v1 uuid

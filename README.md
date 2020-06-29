@@ -1,3 +1,4 @@
+# Schemy
 Schemy is a extremely simple, lightweight schema validation library.
 
 ## What's wrong with the existing alternatives?
@@ -11,22 +12,22 @@ To use Schemy, you need a file (you can also use it in the same file within your
 const Schema = require('../utils/schemy');
 
 module.exports = new Schema({
-	'name': {
-		type: String,
-		required: true
-	},
-	'age': {
-		type: Number,
-		required: true
-	},
-	'pictures': {
-		type: [String]
+    'name': {
+	type: String,
+	required: true
+    },
+    'age': {
+	type: Number,
+	required: true
+    },
+    'pictures': {
+	type: [String]
     },
     
     // Schemy has some helpers to validate string formats like v1 uuid
-	'id': {
-		type: 'uuid/v1'
-	}
+    'id': {
+        type: 'uuid/v1'
+    }
 });
 ```
 
@@ -46,8 +47,7 @@ if (!characterSchema.validate(req.body)) {
 ```
 
 ## API
-### Schemy
-#### Schemy(object) (constructor)
+### Schemy(object)
 Takes an object with the desired structure to validate later.
 
 ```javascript
@@ -82,8 +82,8 @@ module.exports = new Schema({
 	}
 });
 ```
-
-#### Schemy.validate(data)
+<br><br>
+### Schemy.validate(data)
 Validates the schema and returns true if input data passes validation. Returns false otherwise.
 
 ```javascript
@@ -99,8 +99,8 @@ if (!exampleSchema.validate(input)) {
     // All good!
 }
 ```
-
-#### Schemy.getValidationErrors()
+<br><br>
+### Schemy.getValidationErrors()
 If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
 
 ```javascript
@@ -126,6 +126,6 @@ if (!exampleSchema.validate(input)) {
     // ] 
 }
 ```
-
-#### Schemy.getBody()
+<br><br>
+### Schemy.getBody()
 Returns the validated body as an object from the last `Schemy.validate()` call.

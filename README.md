@@ -9,7 +9,7 @@ However, what if I want a really small, simple and lightweight library that just
 To use Schemy, you need a file (you can also use it in the same file within your validation code) with the desired schema:
 
 ```javascript
-const Schema = require('../utils/schemy');
+const Schema = require('schemy');
 
 module.exports = new Schema({
     'name': {
@@ -51,7 +51,7 @@ if (!characterSchema.validate(req.body)) {
 Takes an object with the desired structure to validate later.
 
 ```javascript
-const Schema = require('../utils/schemy');
+const Schema = require('schemy');
 
 module.exports = new Schema({
 	'name': {

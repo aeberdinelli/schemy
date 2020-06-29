@@ -1,0 +1,12 @@
+{
+  "name": "schemy",
+  "version": "1.0.0",
+  "description": "A (very) simple, lightweight schema validation library",
+  "main": "index.js",
+  "scripts": {    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["schema","validation","json","joi","mongoose","node","js"],
+  "author": "Alan Berdinelli",
+  "license": "ISC"
+}

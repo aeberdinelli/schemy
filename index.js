@@ -38,6 +38,11 @@ class Schemy {
 		this.data = null;
 	}
 
+	/**
+	 * Get the native types supported by Schemy
+	 * 
+	 * @returns {Array<String>} Supported types
+	 */
 	static getSupportedTypes() {
 		return [
 			'boolean',
@@ -47,6 +52,11 @@ class Schemy {
 		];
 	}
 
+	/**
+	 * Get the string validations supported by Schemy
+	 * 
+	 * @returns {Array<String>} Supported validations
+	 */
 	static getSupportedStringValidations() {
 		return [
 			'uuid/v1',
@@ -54,6 +64,12 @@ class Schemy {
 		];
 	}
 
+	/**
+	 * Validates data against this schema
+	 * 
+	 * @param {Object} data Object to validate agains the schema
+	 * @returns {Boolean} true if validated correctly, false otherwise
+	 */
 	validate(data) {
 		this.validationErrors = [];
 		this.missing = [];
@@ -151,10 +167,20 @@ class Schemy {
 		return (this.validationErrors.length === 0);
 	}
 
+	/**
+	 * Get all the validation errors from the last validation
+	 * 
+	 * @returns {Array<String>} Array with string of errors
+	 */
 	getValidationErrors() {
 		return this.validationErrors;
 	}
 
+	/**
+	 * Get the data provided in the last validation
+	 * 
+	 * @returns {Object} Last validated data
+	 */
 	getBody() {
 		return this.data;
 	}

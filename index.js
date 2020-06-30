@@ -1,5 +1,5 @@
 class Schemy {
-	constructor(object) {
+	constructor(schema) {
 		// Validate schema first
 		for (var [key, properties] of Object.entries(object)) {
 			if (properties.type) {
@@ -29,11 +29,12 @@ class Schemy {
 
 		this.validationErrors = [];
 		this.missing = [];
-		this.flex = (object.strict === false);
+		
+		this.flex = (schema.strict === false);
 
-		delete object.strict;
+		delete schema.strict;
 
-		this.schema = object;
+		this.schema = schema;
 		this.data = null;
 	}
 

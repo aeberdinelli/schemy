@@ -1,7 +1,7 @@
 class Schemy {
 	constructor(schema) {
 		// Validate schema first
-		for (var [key, properties] of Object.entries(object)) {
+		for (var [key, properties] of Object.entries(schema)) {
 			if (properties.type) {
 				if (typeof properties.type === 'function') {
 					if (Schemy.getSupportedTypes().indexOf(typeof properties['type']()) === -1) {

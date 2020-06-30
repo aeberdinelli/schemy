@@ -1,6 +1,6 @@
 {
   "name": "schemy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A (very) simple, lightweight schema validation library",
   "main": "index.js",
   "scripts": {    
@@ -8,5 +8,10 @@
   },
   "keywords": ["schema","validation","json","joi","mongoose","node","js"],
   "author": "Alan Berdinelli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aeberdinelli/schemy.git"
+  },
+  "homepage": "https://github.com/aeberdinelli/schemy",
   "license": "ISC"
 }

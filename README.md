@@ -5,19 +5,20 @@ Schemy is a extremely simple, lightweight schema validation library.
 Nothing. Joi is amazing, and if you use MongoDB you can also take advantage of mongoose. 
 However, what if I want a really small, simple and lightweight library that just validates a schema and **nothing else**? To use in, for example, an AWS lambda function.
 
-## Examples
-To use Schemy, you need a file (you can also use it in the same file within your validation code) with the desired schema:
+## Usage
+Install using npm: `npm install --save schemy`.
+Then, create a schema with the desired properties and their types:
 
 ```javascript
 const Schema = require('schemy');
 
-module.exports = new Schema({
+const characterSchema = new Schema({
     'name': {
         type: String,
         required: true
     },
     'age': {
-	type: Number,
+	   type: Number,
        required: true
     },
     'pictures': {
@@ -31,18 +32,22 @@ module.exports = new Schema({
 });
 ```
 
-Then, in your validation code:
+Now, to validate that schema in your validation code:
 ```javascript
-// Import the schema file
-const characterSchema = require('character.js');
+// This is a mock of some input we want to validate
+const userInput = { name: 'Alan' };
 
 // Validate against input data
-if (!characterSchema.validate(req.body)) {
-    // Schema is incorrect, here you can return some error
-    return res.status(400).json({
-        error: true,
-        validationErrors: characterSchema.getValidationErrors()
-    });
+if (!characterSchema.validate(userInput)) {
+    // Schema is incorrect
+    console.log(
+        characterSchema.getValidationErrors()
+    );
+
+    // That will output something like:
+    // [
+    //    'Missing required property age'
+    // ]
 }
 ```
 

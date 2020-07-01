@@ -6,6 +6,7 @@ Nothing. Joi is amazing, and if you use MongoDB you can also take advantage of m
 However, what if I want a really small, simple and lightweight library that just validates a schema and **nothing else**? To use in, for example, an AWS lambda function.
 
 ## Usage
+**NOTE**: Take a look at [the wiki](https://github.com/aeberdinelli/schemy/wiki)! <br>
 Install using npm: `npm install --save schemy`.
 Then, create a schema with the desired properties and their types:
 
@@ -87,7 +88,7 @@ module.exports = new Schema({
 	}
 });
 ```
-<br><br>
+<br>
 ### Schemy.validate(data)
 Validates the schema and returns true if input data passes validation. Returns false otherwise.
 
@@ -104,7 +105,7 @@ if (!exampleSchema.validate(input)) {
     // All good!
 }
 ```
-<br><br>
+<br>
 ### Schemy.getValidationErrors()
 If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
 
@@ -131,6 +132,6 @@ if (!exampleSchema.validate(input)) {
     // ] 
 }
 ```
-<br><br>
+<br>
 ### Schemy.getBody()
 Returns the validated body as an object from the last `Schemy.validate()` call.

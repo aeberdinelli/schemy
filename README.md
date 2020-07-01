@@ -89,6 +89,7 @@ module.exports = new Schema({
 });
 ```
 <br>
+
 ### Schemy.validate(data)
 Validates the schema and returns true if input data passes validation. Returns false otherwise.
 
@@ -106,6 +107,7 @@ if (!exampleSchema.validate(input)) {
 }
 ```
 <br>
+
 ### Schemy.getValidationErrors()
 If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
 
@@ -133,5 +135,6 @@ if (!exampleSchema.validate(input)) {
 }
 ```
 <br>
+
 ### Schemy.getBody()
 Returns the validated body as an object from the last `Schemy.validate()` call.

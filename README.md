@@ -1,4 +1,4 @@
-# Schemy
+# Schemy [Wiki ↗](https://github.com/aeberdinelli/schemy/wiki)
 Schemy is a extremely simple, lightweight schema validation library.
 
 ## What's wrong with the existing alternatives?
@@ -6,7 +6,6 @@ Nothing. Joi is amazing, and if you use MongoDB you can also take advantage of m
 However, what if I want a really small, simple and lightweight library that just validates a schema and **nothing else**? To use in, for example, an AWS lambda function.
 
 ## Usage
-**NOTE**: Take a look at [the wiki](https://github.com/aeberdinelli/schemy/wiki)! <br>
 Install using npm: `npm install --save schemy`.
 Then, create a schema with the desired properties and their types:
 

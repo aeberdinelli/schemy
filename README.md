@@ -1,4 +1,4 @@
-# Schemy [Documentation ↗](https://github.com/aeberdinelli/schemy/wiki)
+# Schemy | [Documentation ↗](https://github.com/aeberdinelli/schemy/wiki)
 Schemy is a extremely simple, lightweight schema validation library.
 
 ## What's wrong with the existing alternatives?

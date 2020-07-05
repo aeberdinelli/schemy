@@ -2,28 +2,30 @@ class Schemy {
 	constructor(schema) {
 		// Validate schema first
 		for (var [key, properties] of Object.entries(schema)) {
-			if (properties.type) {
-				if (typeof properties.type === 'function') {
-					if (Schemy.getSupportedTypes().indexOf(typeof properties['type']()) === -1) {
-						throw new Error(`Unsupported type on '${key}': ${typeof properties['type']()}`);
-					}
+			if (!properties.type) {
+				throw new Error(`Property ${key} has no type defined`);
+			}
 
-					if (typeof properties['type']() !== 'string' && (properties.enum || properties.regex)) {
-						throw new Error(`Invalid schema for '${key}': regex and enum can be set only for strings`);
-					}
-
-					if (properties.regex && !(properties.regex instanceof RegExp)) {
-						throw new Error(`Invalid schema for '${key}': regex must be an instance of RegExp`);
-					}
+			if (typeof properties.type === 'function') {
+				if (Schemy.getSupportedTypes().indexOf(typeof properties['type']()) === -1) {
+					throw new Error(`Unsupported type on '${key}': ${typeof properties['type']()}`);
 				}
 
-				else if (typeof properties.type === 'string' && Schemy.getSupportedStringValidations().indexOf(properties.type) === -1) {
-					throw new Error(`Unsupported type on '${key}': ${properties.type}`);
+				if (typeof properties['type']() !== 'string' && (properties.enum || properties.regex)) {
+					throw new Error(`Invalid schema for '${key}': regex and enum can be set only for strings`);
 				}
 
-				else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
-					throw new Error(`Invalid schema for '${key}'. Array items must be declared of any type, or just one type: [String], [Number]`);
+				if (properties.regex && !(properties.regex instanceof RegExp)) {
+					throw new Error(`Invalid schema for '${key}': regex must be an instance of RegExp`);
 				}
+			}
+
+			else if (typeof properties.type === 'string' && Schemy.getSupportedStringValidations().indexOf(properties.type) === -1) {
+				throw new Error(`Unsupported type on '${key}': ${properties.type}`);
+			}
+
+			else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
+				throw new Error(`Invalid schema for '${key}'. Array items must be declared of any type, or just one type: [String], [Number]`);
 			}
 		}
 

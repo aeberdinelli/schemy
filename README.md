@@ -27,7 +27,7 @@ const characterSchema = new Schema({
         required: true
     },
     'age': {
-	   type: Number,
+       type: Number,
        required: true
     },
     'pictures': {

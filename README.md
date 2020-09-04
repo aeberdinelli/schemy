@@ -107,7 +107,21 @@ module.exports = new Schema({
 ```
 <br>
 
-### Schemy.validate(data)
+### Schemy.validate(data, SchemyInstance)
+Asynchronously validates some data against the passed schema. Throws error on failure.
+
+```javascript
+const exampleSchema = new Schemy({...});
+
+const input = {
+    'name': 'Alan'
+};
+
+async function() {
+    Schemy.validate(input, exampleSchema);
+}
+
+### Schemy*instance*.validate(data)
 Validates the schema and returns true if input data passes validation. Returns false otherwise.
 
 ```javascript
@@ -125,7 +139,7 @@ if (!exampleSchema.validate(input)) {
 ```
 <br>
 
-### Schemy.getValidationErrors()
+### Schemy*instance*.getValidationErrors()
 If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
 
 ```javascript
@@ -153,5 +167,5 @@ if (!exampleSchema.validate(input)) {
 ```
 <br>
 
-### Schemy.getBody()
+### Schemy*instance*.getBody()
 Returns the validated body as an object from the last `Schemy.validate()` call.

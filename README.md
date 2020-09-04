@@ -12,9 +12,18 @@ Then, create a schema with the desired properties and their types:
 ```javascript
 const Schema = require('schemy');
 
+const nameSchema = new Schema({
+    'firstname': {
+        type: String,
+    },
+    'lastname': {
+        type: String
+    }
+});
+
 const characterSchema = new Schema({
     'name': {
-        type: String,
+        type: nameSchema, // You can also use nested schemas
         required: true
     },
     'age': {
@@ -49,6 +58,15 @@ if (!characterSchema.validate(userInput)) {
     //    'Missing required property age'
     // ]
 }
+
+// You can also validate asynchronously
+await Schemy.validate(userInput, characterSchema);
+
+// Or, using promises
+Schemy
+    .validate(userInput, characterSchema)
+    .then(passed => {...})
+    .catch(validationErrors => {...});
 ```
 
 ## API

@@ -41,6 +41,26 @@ class Schemy {
 	}
 
 	/**
+	 * Validates an object against a schema
+	 * 
+	 * @param {Object} body Object to validate
+	 * @param {Schemy} schema Schemy instance to validate against to
+	 */
+	static async validate(body, schema) {
+		if (!(schema instanceof Schemy)) {
+			throw new Error('Second argument must be an instance of Schemy');
+		}
+
+		return new Promise((resolve, reject) => {
+			if (!schema.validate(body)) {
+				return reject(schema.getValidationErrors());
+			}
+
+			return resolve(true);
+		});
+	}
+
+	/**
 	 * Get the native types supported by Schemy
 	 * 
 	 * @returns {Array<String>} Supported types
@@ -82,7 +102,7 @@ class Schemy {
 			return false;
 		}
 
-		if (!this.flex) {
+		if (!this.flex && typeof data === 'object') {
 			Object.keys(data).forEach(key => {
 				if (!this.schema[key]) {
 					this.validationErrors.push(`Property ${key} not valid in schema`);
@@ -120,7 +140,21 @@ class Schemy {
 			}
 
 			if (properties.type) {
-				if (typeof properties.type === 'function') {
+				// Validate child schema
+				if (properties.type instanceof Schemy) {
+					if (!properties.type.validate(data[key])) {
+						this.validationErrors = [
+							...this.validationErrors,
+							...properties.type.getValidationErrors().map(error => 
+								error
+									.replace('Property ',`Property ${key}.`)
+									.replace(' property ',` property ${key}.`)
+							)
+						];
+					}
+				}
+
+				else if (typeof properties.type === 'function') {
 					// Check value matches expected type
 					if (typeof data[key] !== typeof properties['type']()) {
 						this.validationErrors.push(`Property '${key}' is ${typeof data[key]}, expected ${typeof properties['type']()}`);

@@ -131,4 +131,79 @@ describe('Schemy validator', function() {
 
         expect(schema.validate({})).toBe(true);
     });
+
+    it('Should throw exception while validating asyncronously', async function() {
+        const schema = new Schemy({
+            title: {
+                type: String
+            }
+        });
+
+        let result;
+
+        try {
+            await Schemy.validate({title: 1}, schema);
+        }
+        catch (e) {
+            result = e;
+        }
+
+        expect(result).toBeDefined();
+        expect(result).toBe(jasmine.any(Array));
+    });
+
+    it('Should pass validation with correct child schemas', function() {
+        const schemaName = new Schemy({
+            firstname: {
+                type: String,
+                required: true
+            },
+            lastname: {
+                type: String
+            }
+        });
+
+        const schemaPerson = new Schemy({
+            name: {
+                type: schemaName,
+                required: true
+            }
+        });
+
+        const result = schemaPerson.validate({
+            name: {
+                firstname: 'Name'
+            }
+        });
+
+        expect(result).toBe(true);
+    });
+
+    it('Should fail validation if child schema data is incorrect', function() {
+        const schemaName = new Schemy({
+            firstname: {
+                type: String,
+                required: true
+            },
+            lastname: {
+                type: String
+            }
+        });
+
+        const schemaPerson = new Schemy({
+            name: {
+                type: schemaName,
+                required: true
+            }
+        });
+
+        const result = schemaPerson.validate({
+            name: {
+                lastname: 'Lastname'
+            }
+        });
+
+        expect(result).toBe(false);
+        expect(schemaPerson.getValidationErrors()[0]).toBe('Missing required property name.firstname');
+    });
 });

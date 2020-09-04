@@ -46,4 +46,40 @@ describe('Schemy methods', function() {
         expect(schema.validate(input)).toBe(true);
         expect(schema.getBody()).toEqual(input);
     });
+
+    it('Should throw error if passing not Schemy instance as validation argument', async function() {
+        expect(await Schemy.validate({}, {})).toThrow('Second argument must be an instance of Schemy');
+    });
+
+    it('Should pass validation correctly when validating asynchronously', async function() {
+        const schema = new Schemy({
+            title: {
+                type: String,
+                required: true
+            }
+        });
+
+        const input = {
+            name: 'Name'
+        };
+
+        expect(await Schemy.validate(input, schema)).toBe(true);
+    });
+
+    it('Should pass validation correctly when validating using promise', function() {
+        const schema = new Schemy({
+            title: {
+                type: String,
+                required: true
+            }
+        });
+
+        const input = {
+            name: 'Name'
+        };
+
+        Schemy.validate(input, schema).then(result => {
+            expect(result).toBe(true);
+        });
+    })
 });

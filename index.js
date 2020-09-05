@@ -2,7 +2,7 @@ class Schemy {
 	constructor(schema) {
 		// Validate schema first
 		for (var [key, properties] of Object.entries(schema)) {
-			if (!properties.type) {
+			if (key !== 'strict' && !properties.type) {
 				throw new Error(`Property ${key} has no type defined`);
 			}
 
@@ -218,7 +218,17 @@ class Schemy {
 	 * @returns {Object} Last validated data
 	 */
 	getBody() {
-		return this.data;
+		const output = { ...this.data };
+
+		if (this.flex) {
+			Object.keys(output).forEach(key => {
+				if (!this.schema[key]) {
+					delete output[key];
+				}
+			});
+		}
+
+		return output;
 	}
 }
 

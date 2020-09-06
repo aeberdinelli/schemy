@@ -124,6 +124,7 @@ const input = {
 async function() {
     Schemy.validate(input, exampleSchema);
 }
+```
 
 ### Schemy*instance*.validate(data)
 Validates the schema and returns true if input data passes validation. Returns false otherwise.

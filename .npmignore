@@ -6,3 +6,4 @@ coverage
 spec
 README.md
 .gitignore
+.editorconfig

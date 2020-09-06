@@ -77,36 +77,36 @@ Takes an object with the desired structure to validate later.
 const Schema = require('schemy');
 
 module.exports = new Schema({
-	'name': {
-		type: String,
-		required: true
-	},
-	'lastname': {
-		type: String,
+    'name': {
+        type: String,
+        required: true
+    },
+    'lastname': {
+        type: String,
     },
     'age': {
         type: Number,
         min: 18
     },
-	'phone': {
-		type: Number,
-		required: true
-	},
-	'pictures': {
-		type: [String]
-	},
-	'type': {
-		type: String,
-		required: true,
-		enum: ['type1','type2','other']
-	},
-	'companyId': {
-		type: 'uuid/v1',
-	},
-	'deleted': {
-		type: Number,
-		default: 0
-	}
+    'phone': {
+        type: Number,
+        required: true
+    },
+    'pictures': {
+        type: [String]
+    },
+    'type': {
+        type: String,
+        required: true,
+        enum: ['type1','type2','other']
+    },
+    'companyId': {
+        type: 'uuid/v1',
+    },
+    'deleted': {
+        type: Number,
+        default: 0
+    }
 });
 ```
 <br>

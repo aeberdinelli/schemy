@@ -23,9 +23,9 @@ describe('Schemy methods', function() {
 
         const expectedErrors = [
             'Property something not valid in schema',
-            'Property \'title\' is number, expected string',
-            'Property \'age\' is string, expected number',
-            'An item in array of \'types\' is not valid. All items must be of type string'
+            'Property title is number, expected string',
+            'Property age is string, expected number',
+            'An item in array of property types is not valid. All items must be of type string'
         ];
 
         expect(schema.validate(input)).toBe(false);
@@ -45,6 +45,20 @@ describe('Schemy methods', function() {
 
         expect(schema.validate(input)).toBe(true);
         expect(schema.getBody()).toEqual(input);
+    });
+
+    it('Should return validated data with extra values', function() {
+        const schema = new Schemy({
+            title: {
+                type: String
+            },
+            strict: false
+        });
+        
+        const input = {title: 'something', age: 21};
+
+        expect(schema.validate(input)).toBe(true);
+        expect(schema.getBody()).toEqual({title: 'something'});
     });
 
     it('Should throw error if passing not Schemy instance as validation argument', async function() {

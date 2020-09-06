@@ -83,7 +83,11 @@ module.exports = new Schema({
 	},
 	'lastname': {
 		type: String,
-	},
+    },
+    'age': {
+        type: Number,
+        min: 18
+    },
 	'phone': {
 		type: Number,
 		required: true
@@ -167,5 +171,6 @@ if (!exampleSchema.validate(input)) {
 ```
 <br>
 
-### Schemy*instance*.getBody()
+### Schemy*instance*.getBody(includeAll = false)
 Returns the validated body as an object from the last `Schemy.validate()` call.
+If includeAll is set to true, then schemy will return the object with all the extra properties not defined in the original schema.

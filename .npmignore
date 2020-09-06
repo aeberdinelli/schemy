@@ -1,0 +1,8 @@
+# Do not include in published package
+node_modules
+.nyc_output
+coverage
+.github
+spec
+README.md
+.gitignore

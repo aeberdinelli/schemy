@@ -30,7 +30,7 @@ describe('Schemy instance validation', function() {
                     regex: /^([a-z]+)$/i
                 }
             });
-        }).toThrow(new Error('Invalid schema for \'title\': regex and enum can be set only for strings'));
+        }).toThrow(new Error('Invalid schema for title: regex and enum can be set only for strings'));
     });
 
     it('Should fail if using enum on a non string property', function() {
@@ -41,7 +41,7 @@ describe('Schemy instance validation', function() {
                     enum: ['value']
                 }
             })
-        }).toThrow(new Error('Invalid schema for \'title\': regex and enum can be set only for strings'));
+        }).toThrow(new Error('Invalid schema for title: regex and enum can be set only for strings'));
     });
 
     it('Should fail if defined regex property without a regex type', function() {
@@ -52,7 +52,7 @@ describe('Schemy instance validation', function() {
                     regex: 'not a regex'
                 }
             });
-        }).toThrow(new Error('Invalid schema for \'title\': regex must be an instance of RegExp'));
+        }).toThrow(new Error('Invalid schema for title: regex must be an instance of RegExp'));
     });
 
     it('Should fail if type is not supported', function() {
@@ -62,7 +62,7 @@ describe('Schemy instance validation', function() {
                     type: 'not_supported'
                 }
             });
-        }).toThrow(new Error('Unsupported type on \'title\': not_supported'));
+        }).toThrow(new Error('Unsupported type on title: not_supported'));
     });
 
     it('Should fail if passing an array type with multiple sub-types', function() {
@@ -72,7 +72,7 @@ describe('Schemy instance validation', function() {
                     type: [String, Number]
                 }
             });
-        }).toThrow(new Error('Invalid schema for \'title\'. Array items must be declared of any type, or just one type: [String], [Number]'));
+        }).toThrow(new Error('Invalid schema for title. Array items must be declared of any type, or just one type: [String], [Number]'));
     });
 
     it('Should pass if schema declared correctly', function() {
@@ -87,5 +87,27 @@ describe('Schemy instance validation', function() {
         });
 
         expect(schema).toEqual(jasmine.any(Schemy));
-    })
+    });
+
+    it('Should fail if min property is not a number', function() {
+        expect(function() {
+            new Schemy({
+                age: {
+                    type: Number,
+                    min: '4'
+                }
+            })
+        }).toThrow(new Error('Invalid schema for age: min property must be a number'));
+    });
+
+    it('Should fail if min property is not a number', function() {
+        expect(function() {
+            new Schemy({
+                age: {
+                    type: Number,
+                    max: '4'
+                }
+            })
+        }).toThrow(new Error('Invalid schema for age: max property must be a number'));
+    });
 });

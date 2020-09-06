@@ -7,25 +7,33 @@ class Schemy {
 			}
 
 			if (typeof properties.type === 'function') {
-				if (Schemy.getSupportedTypes().indexOf(typeof properties['type']()) === -1) {
-					throw new Error(`Unsupported type on '${key}': ${typeof properties['type']()}`);
+				if (['boolean','string','number','object'].indexOf(typeof properties['type']()) === -1) {
+					throw new Error(`Unsupported type on ${key}: ${typeof properties['type']()}`);
 				}
 
 				if (typeof properties['type']() !== 'string' && (properties.enum || properties.regex)) {
-					throw new Error(`Invalid schema for '${key}': regex and enum can be set only for strings`);
+					throw new Error(`Invalid schema for ${key}: regex and enum can be set only for strings`);
 				}
 
 				if (properties.regex && !(properties.regex instanceof RegExp)) {
-					throw new Error(`Invalid schema for '${key}': regex must be an instance of RegExp`);
+					throw new Error(`Invalid schema for ${key}: regex must be an instance of RegExp`);
+				}
+
+				if (properties.min && typeof properties.min !== 'number') {
+					throw new Error(`Invalid schema for ${key}: min property must be a number`);
+				}
+
+				if (properties.max && typeof properties.max !== 'number') {
+					throw new Error(`Invalid schema for ${key}: max property must be a number`);
 				}
 			}
 
-			else if (typeof properties.type === 'string' && Schemy.getSupportedStringValidations().indexOf(properties.type) === -1) {
-				throw new Error(`Unsupported type on '${key}': ${properties.type}`);
+			else if (typeof properties.type === 'string' && ['uuid/v1','uuid/v4'].indexOf(properties.type) === -1) {
+				throw new Error(`Unsupported type on ${key}: ${properties.type}`);
 			}
 
 			else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
-				throw new Error(`Invalid schema for '${key}'. Array items must be declared of any type, or just one type: [String], [Number]`);
+				throw new Error(`Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`);
 			}
 		}
 
@@ -41,7 +49,7 @@ class Schemy {
 	}
 
 	/**
-	 * Validates an object against a schema
+	 * Async validates an object against a schema
 	 * 
 	 * @param {Object} body Object to validate
 	 * @param {Schemy} schema Schemy instance to validate against to
@@ -56,34 +64,9 @@ class Schemy {
 				return reject(schema.getValidationErrors());
 			}
 
+			/* istanbul ignore next */
 			return resolve(true);
 		});
-	}
-
-	/**
-	 * Get the native types supported by Schemy
-	 * 
-	 * @returns {Array<String>} Supported types
-	 */
-	static getSupportedTypes() {
-		return [
-			'boolean',
-			'string',
-			'number',
-			'object'
-		];
-	}
-
-	/**
-	 * Get the string validations supported by Schemy
-	 * 
-	 * @returns {Array<String>} Supported validations
-	 */
-	static getSupportedStringValidations() {
-		return [
-			'uuid/v1',
-			'uuid/v4'
-		];
 	}
 
 	/**
@@ -127,10 +110,9 @@ class Schemy {
 				}
 			}
 
+			// If key is missing, ignore other validations
 			if (!!properties.required && (data[key] === null || data[key] === undefined)) {
 				this.validationErrors.push(`Missing required property ${key}`);
-
-				// If key is missing, ignore other validations
 				continue;
 			}
 
@@ -145,11 +127,7 @@ class Schemy {
 					if (!properties.type.validate(data[key])) {
 						this.validationErrors = [
 							...this.validationErrors,
-							...properties.type.getValidationErrors().map(error => 
-								error
-									.replace('Property ',`Property ${key}.`)
-									.replace(' property ',` property ${key}.`)
-							)
+							...properties.type.getValidationErrors().map(error => error.replace('roperty ',`roperty ${key}.`))
 						];
 					}
 				}
@@ -157,21 +135,40 @@ class Schemy {
 				else if (typeof properties.type === 'function') {
 					// Check value matches expected type
 					if (typeof data[key] !== typeof properties['type']()) {
-						this.validationErrors.push(`Property '${key}' is ${typeof data[key]}, expected ${typeof properties['type']()}`);
+						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected ${typeof properties['type']()}`);
 					}
 
 					// If is a string check for enum and regex
 					else if (typeof properties['type']() === 'string') {
 						if (properties.enum) {
 							if (properties.enum.indexOf(data[key]) === -1) {
-								this.validationErrors.push(`Value for '${key}' not in acceptable values`);
+								this.validationErrors.push(`Value for property ${key} not in acceptable values`);
 							}
 						}
 
 						if (properties.regex) {
 							if (!properties.regex.test(data[key])) {
-								this.validationErrors.push(`Regex validation failed for '${key}'`);
+								this.validationErrors.push(`Regex validation failed for property ${key}`);
 							}
+						}
+
+						// min/max lengths
+						if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {
+							this.validationErrors.push(`Property ${key} must contain at least ${properties.min} characters.`);
+						}
+
+						if (typeof properties.max !== 'undefined' && data[key].length > properties.max) {
+							this.validationErrors.push(`Property ${key} must contain less than ${properties.max} characters`);
+						}
+					}
+
+					else if (typeof properties['type']() === 'number') {
+						if (typeof properties.min !== 'undefined' && data[key] < properties.min) {
+							this.validationErrors.push(`Property ${key} must be greater than ${properties.min}`);
+						}
+
+						if (typeof properties.max !== 'undefined' && data[key] > properties.max) {
+							this.validationErrors.push(`Property ${key} must be less than ${properties.max}`);
 						}
 					}
 				}
@@ -179,12 +176,12 @@ class Schemy {
 				else if (typeof properties.type === 'string') {
 					// uuid/v1
 					if (properties.type === 'uuid/v1' && !/([a-z0-9]){8}-([a-z0-9]){4}-([a-z0-9]{4})-([a-z0-9]{4})-([a-z0-9]{12})/.test(data[key])) {
-						this.validationErrors.push(`'${key}' is not a valid uuid/v1`);
+						this.validationErrors.push(`Property ${key} is not a valid uuid/v1`);
 					}
 
 					// uuid/v4
 					if (properties.type === 'uuid/v4' && !/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(data[key])) {
-						this.validationErrors.push(`'${key}' is not a valid uuid/v4`);
+						this.validationErrors.push(`Property ${key} is not a valid uuid/v4`);
 					}
 				}
 
@@ -194,7 +191,7 @@ class Schemy {
 					}
 
 					else if (properties.type.length === 1 && data[key].some(item => typeof item !== typeof properties.type[0]())) {
-						this.validationErrors.push(`An item in array of '${key}' is not valid. All items must be of type ${typeof properties.type[0]()}`);
+						this.validationErrors.push(`An item in array of property ${key} is not valid. All items must be of type ${typeof properties.type[0]()}`);
 					}
 				}
 			}
@@ -215,12 +212,13 @@ class Schemy {
 	/**
 	 * Get the data provided in the last validation
 	 * 
+	 * @param {Boolean} includeAll Include properties not declared in schema
 	 * @returns {Object} Last validated data
 	 */
-	getBody() {
+	getBody(includeAll = false) {
 		const output = { ...this.data };
 
-		if (this.flex) {
+		if (this.flex && !includeAll) {
 			Object.keys(output).forEach(key => {
 				if (!this.schema[key]) {
 					delete output[key];

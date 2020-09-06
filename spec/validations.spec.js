@@ -206,4 +206,60 @@ describe('Schemy validator', function() {
         expect(result).toBe(false);
         expect(schemaPerson.getValidationErrors()[0]).toBe('Missing required property name.firstname');
     });
+
+    it('Should fail validation if a number is greater than declared in schema', function() {
+        const schema = new Schemy({
+            age: {
+                type: Number,
+                max: 18
+            }
+        });
+
+        expect(schema.validate({age: 21})).toBe(false);
+    });
+
+    it('Should fail validation if a number is less than declared in schema', function() {
+        const schema = new Schemy({
+            age: {
+                type: Number,
+                min: 18
+            }
+        });
+
+        expect(schema.validate({age: 8})).toBe(false);
+    });
+
+    it('Should fail validation if a string length is less than declared in schema', function() {
+        const schema = new Schemy({
+            name: {
+                type: String,
+                min: 3
+            }
+        });
+
+        expect(schema.validate({name: 'ab'})).toBe(false);
+    });
+
+    it('Should fail validation if a string length is greater than declared in schema', function() {
+        const schema = new Schemy({
+            name: {
+                type: String,
+                max: 3
+            }
+        });
+
+        expect(schema.validate({name: 'abcd'})).toBe(false);
+    });
+
+    it('Should pass validation if number is within expected min/max', function() {
+        const schema = new Schemy({
+            age: {
+                type: Number,
+                min: 18,
+                max: 50
+            }
+        });
+
+        expect(schema.validate({age: 21})).toBe(true);
+    });
 });

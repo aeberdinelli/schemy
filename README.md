@@ -1,9 +1,17 @@
 # Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> | [Documentation ↗](https://github.com/aeberdinelli/schemy/wiki)
-Schemy is a extremely simple, lightweight schema validation library.
+Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features.
 
-## What's wrong with the existing alternatives?
-Nothing. Joi is amazing, and if you use MongoDB you can also take advantage of mongoose. 
-However, what if I want a really small, simple and lightweight library that just validates a schema and **nothing else**? To use in, for example, an AWS lambda function.
+## Features
+✅ **Ultra lightweight**: Schemy weights __less than 9 KB__ <br />
+✅ **Ultra fast**: Checkout the benchmarks ;) <br />
+✅ Nested schemas validation <br />
+✅ Custom regex rules <br />
+✅ Built-in min/max rules for string lengths <br />
+✅ Built-in min/max rules for numbers <br />
+✅ Supports validation with async/await, promises and sync <br />
+✅ Built-in validations for common strings format, like uuid v1 and v4 <br />
+✅ Unit tested with 100% coverage <br />
+✅ Easy to read and full documentation <br />
 
 ## Usage
 Install using npm: `npm install --save schemy`.

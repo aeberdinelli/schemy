@@ -6,6 +6,7 @@ Schemy is an extremely simple, light schema validation library. Perfect for ligh
 ✅ **Ultra fast**: Checkout the benchmarks ;) <br />
 ✅ Nested schemas validation <br />
 ✅ Custom regex rules <br />
+✅ Built-in whitelist (enum) validations <br />
 ✅ Built-in min/max rules for string lengths <br />
 ✅ Built-in min/max rules for numbers <br />
 ✅ Supports validation with async/await, promises and sync <br />

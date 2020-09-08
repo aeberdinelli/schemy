@@ -132,7 +132,7 @@ const input = {
 };
 
 async function() {
-    Schemy.validate(input, exampleSchema);
+    await Schemy.validate(input, exampleSchema);
 }
 ```
 

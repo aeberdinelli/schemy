@@ -1,6 +1,6 @@
 {
   "name": "schemy",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "A (very) simple, lightweight schema validation library",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/aeberdinelli/schemy.git"
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
   },
   "homepage": "https://github.com/aeberdinelli/schemy",
   "license": "ISC",

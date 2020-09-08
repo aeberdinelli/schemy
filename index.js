@@ -1,6 +1,5 @@
-class Schemy {
+module.exports = class Schemy {
 	constructor(schema) {
-		// Validate schema first
 		for (var [key, properties] of Object.entries(schema)) {
 			if (key !== 'strict' && !properties.type) {
 				throw new Error(`Property ${key} has no type defined`);
@@ -100,8 +99,7 @@ class Schemy {
 					try {
 						data[key] = properties.default();
 						this.data[key] = properties.default();
-					}
-					catch (e) {}
+					} catch (e) {}
 				}
 
 				else if (['string','number'].indexOf(typeof properties.default) !== -1) {
@@ -132,6 +130,12 @@ class Schemy {
 					}
 				}
 
+				else if (properties.type === Date) {
+					if (['string','number'].indexOf(typeof data[key]) === -1 || isNaN(Date.parse(data[key]))) {
+						this.validationErrors.push(`Property ${key} is not a valid date`);
+					}
+				}
+
 				else if (typeof properties.type === 'function') {
 					// Check value matches expected type
 					if (typeof data[key] !== typeof properties['type']()) {
@@ -154,7 +158,7 @@ class Schemy {
 
 						// min/max lengths
 						if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {
-							this.validationErrors.push(`Property ${key} must contain at least ${properties.min} characters.`);
+							this.validationErrors.push(`Property ${key} must contain at least ${properties.min} characters`);
 						}
 
 						if (typeof properties.max !== 'undefined' && data[key].length > properties.max) {
@@ -229,5 +233,3 @@ class Schemy {
 		return output;
 	}
 }
-
-module.exports = Schemy;

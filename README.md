@@ -4,14 +4,15 @@ Schemy is an extremely simple, light schema validation library. Perfect for ligh
 ## Features
 ✅ **Ultra lightweight**<br />
 ✅ **Ultra fast**<br />
+✅ Easy to read codebase <br />
 ✅ Nested schemas validation <br />
 ✅ Custom regex rules <br />
-✅ Built-in Date support <br />
+✅ Built-in date support <br />
 ✅ Built-in whitelist (enum) validations <br />
 ✅ Built-in min/max rules for string lengths <br />
 ✅ Built-in min/max rules for numbers <br />
+✅ Built-in validations for common strings format, like uuid<br />
 ✅ Supports validation with async/await, promises and sync <br />
-✅ Built-in validations for common strings format, like uuid v1 and v4 <br />
 ✅ Unit tested with 100% coverage <br />
 ✅ Easy to read and full documentation <br />
 

@@ -2,7 +2,7 @@
 Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 9 KB!
 
 ## Features
-✅ **Ultra lightweight**
+✅ **Ultra lightweight**<br />
 ✅ **Ultra fast**<br />
 ✅ Nested schemas validation <br />
 ✅ Custom regex rules <br />

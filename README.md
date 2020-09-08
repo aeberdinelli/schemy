@@ -21,9 +21,9 @@ Install using npm: `npm install --save schemy`.
 Then, create a schema with the desired properties and their types:
 
 ```javascript
-const Schema = require('schemy');
+const Schemy = require('schemy');
 
-const nameSchema = new Schema({
+const nameSchema = new Schemy({
     'firstname': {
         type: String,
     },
@@ -32,7 +32,7 @@ const nameSchema = new Schema({
     }
 });
 
-const characterSchema = new Schema({
+const characterSchema = new Schemy({
     'name': {
         type: nameSchema, // You can also use nested schemas
         required: true
@@ -85,9 +85,9 @@ Schemy
 Takes an object with the desired structure to validate later.
 
 ```javascript
-const Schema = require('schemy');
+const Schemy = require('schemy');
 
-module.exports = new Schema({
+module.exports = new Schemy({
     'name': {
         type: String,
         required: true
@@ -141,7 +141,7 @@ async function() {
 Validates the schema and returns true if input data passes validation. Returns false otherwise.
 
 ```javascript
-const exampleSchema = new Schema({...});
+const exampleSchema = new Schemy({...});
 
 const input = {
     'name': 'Alan'
@@ -159,7 +159,7 @@ if (!exampleSchema.validate(input)) {
 If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
 
 ```javascript
-const exampleSchema = new Schema({
+const exampleSchema = new Schemy({
     'age': {
         type: Number,
         required: 'true'

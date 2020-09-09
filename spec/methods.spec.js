@@ -32,6 +32,17 @@ describe('Schemy methods', function() {
 		expect(schema.getValidationErrors()).toEqual(expectedErrors);
 	});
 
+	it('Should throw error trying to get errors without calling validate first', function() {
+		const schema = new Schemy({strict: false});
+
+		try {
+			schema.getValidationErrors();
+		} 
+		catch (err) {
+			expect(err.message).toBe('You need to call .validate() before .getValidationErrors()');
+		}
+	});
+
 	it('Should return the validated data', function() {
 		const schema = new Schemy({
 			title: {
@@ -63,6 +74,23 @@ describe('Schemy methods', function() {
 
 	it('Should throw error if passing not Schemy instance as validation argument', async function() {
 		expect(await Schemy.validate({}, {})).toThrow('Second argument must be an instance of Schemy');
+	});
+
+	it('Should throw error if passing an invalid argument as validation argument', async function() {
+		expect(await Schemy.validate({}, 'abc')).toThrow('Second argument must be an instance of Schemy or a valid schema');
+	});
+
+	it('Should validate correctly if passing two objects to validate method', async function() {
+		expect(
+			await Schemy.validate({
+				name: 'Alan'
+			}, {
+				name: {
+					type: String,
+					required: true
+				}
+			})
+		).toBe(true);
 	});
 
 	it('Should pass validation correctly when validating asynchronously', async function() {

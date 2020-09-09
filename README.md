@@ -4,17 +4,17 @@ Schemy is an extremely simple, light schema validation library. Perfect for ligh
 ## Features
 ✅ **Ultra lightweight**<br />
 ✅ **Ultra fast**<br />
-✅ Easy to read codebase <br />
-✅ Nested schemas validation <br />
-✅ Custom regex rules <br />
-✅ Built-in date support <br />
-✅ Built-in whitelist (enum) validations <br />
-✅ Built-in min/max rules for string lengths <br />
-✅ Built-in min/max rules for numbers <br />
+✅ Easy to read codebase<br />
+✅ Nested schemas validation<br />
+✅ Custom regex rules<br />
+✅ Built-in date support<br />
+✅ Built-in whitelist (enum) validations<br />
+✅ Built-in min/max rules for string lengths<br />
+✅ Built-in min/max rules for numbers<br />
 ✅ Built-in validations for common strings format, like uuid<br />
-✅ Supports validation with async/await, promises and sync <br />
-✅ Unit tested with 100% coverage <br />
-✅ Easy to read and full documentation <br />
+✅ Supports validation with async/await, promises and sync<br />
+✅ Unit tested with 100% coverage<br />
+✅ Easy to read and full documentation<br />
 
 ## Usage
 Install using npm: `npm install --save schemy`.
@@ -24,12 +24,8 @@ Then, create a schema with the desired properties and their types:
 const Schemy = require('schemy');
 
 const nameSchema = new Schemy({
-    'firstname': {
-        type: String,
-    },
-    'lastname': {
-        type: String
-    }
+    'firstname': { type: String },
+    'lastname': { type: String }
 });
 
 const characterSchema = new Schemy({
@@ -37,14 +33,6 @@ const characterSchema = new Schemy({
         type: nameSchema, // You can also use nested schemas
         required: true
     },
-    'age': {
-       type: Number,
-       required: true
-    },
-    'pictures': {
-        type: [String]
-    },
-    
     // Schemy has some helpers to validate string formats like v1 uuid
     'id': {
         type: 'uuid/v1'
@@ -59,15 +47,7 @@ const userInput = { name: 'Alan' };
 
 // Validate against input data
 if (!characterSchema.validate(userInput)) {
-    // Schema is incorrect
-    console.log(
-        characterSchema.getValidationErrors()
-    );
-
-    // That will output something like:
-    // [
-    //    'Missing required property age'
-    // ]
+    characterSchema.getValidationErrors(); // => ['Missing required property age']
 }
 
 // You can also validate asynchronously
@@ -92,31 +72,23 @@ module.exports = new Schemy({
         type: String,
         required: true
     },
-    'lastname': {
-        type: String,
-    },
     'age': {
         type: Number,
-        min: 18
+        min: 18,
+        max: 99
     },
     'phone': {
         type: Number,
-        required: true
     },
     'pictures': {
         type: [String]
     },
     'type': {
         type: String,
-        required: true,
         enum: ['type1','type2','other']
     },
     'companyId': {
         type: 'uuid/v1',
-    },
-    'deleted': {
-        type: Number,
-        default: 0
     }
 });
 ```
@@ -127,10 +99,7 @@ Asynchronously validates some data against the passed schema. Throws error on fa
 
 ```javascript
 const exampleSchema = new Schemy({...});
-
-const input = {
-    'name': 'Alan'
-};
+const input = {'name': 'Alan'};
 
 async function() {
     await Schemy.validate(input, exampleSchema);
@@ -142,16 +111,9 @@ Validates the schema and returns true if input data passes validation. Returns f
 
 ```javascript
 const exampleSchema = new Schemy({...});
+const input = {'name': 'Alan'};
 
-const input = {
-    'name': 'Alan'
-};
-
-if (!exampleSchema.validate(input)) {
-    // Input failed validation
-} else {
-    // All good!
-}
+exampleSchema.validate(input)); // => true if input is valid, false otherwise
 ```
 <br>
 
@@ -166,19 +128,12 @@ const exampleSchema = new Schemy({
     }
 });
 
-const input = {
-    'age': '25'
-};
+const input = {'age': '25'};
 
 if (!exampleSchema.validate(input)) {
     console.log(
         exampleSchema.getValidationErrors()
-    );
-    
-    // Output will be:
-    // [
-    //     "Property age is string, expected number"
-    // ] 
+    ); // => ['Property age is string, expected number'] 
 }
 ```
 <br>

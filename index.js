@@ -45,6 +45,7 @@ module.exports = class Schemy {
 
 		this.schema = schema;
 		this.data = null;
+		this.validationRan = false;
 	}
 
 	/**
@@ -55,7 +56,11 @@ module.exports = class Schemy {
 	 */
 	static async validate(body, schema) {
 		if (!(schema instanceof Schemy)) {
-			throw new Error('Second argument must be an instance of Schemy');
+			try {
+				schema = new Schemy(schema);
+			} catch (e) {
+				throw new Error('Second argument must be an instance of Schemy or a valid schema');
+			}
 		}
 
 		return new Promise((resolve, reject) => {
@@ -75,6 +80,7 @@ module.exports = class Schemy {
 	 * @returns {Boolean} true if validated correctly, false otherwise
 	 */
 	validate(data) {
+		this.validationRan = true;
 		this.validationErrors = [];
 		this.missing = [];
 		this.data = data;
@@ -137,12 +143,12 @@ module.exports = class Schemy {
 				}
 
 				else if (typeof properties.type === 'function') {
-					// Check value matches expected type
+					// Check native types
 					if (typeof data[key] !== typeof properties['type']()) {
 						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected ${typeof properties['type']()}`);
 					}
 
-					// If is a string check for enum and regex
+					// Check string: enum, regex, min, max
 					else if (typeof properties['type']() === 'string') {
 						if (properties.enum) {
 							if (properties.enum.indexOf(data[key]) === -1) {
@@ -156,7 +162,6 @@ module.exports = class Schemy {
 							}
 						}
 
-						// min/max lengths
 						if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {
 							this.validationErrors.push(`Property ${key} must contain at least ${properties.min} characters`);
 						}
@@ -166,6 +171,7 @@ module.exports = class Schemy {
 						}
 					}
 
+					// Check number min/max
 					else if (typeof properties['type']() === 'number') {
 						if (typeof properties.min !== 'undefined' && data[key] < properties.min) {
 							this.validationErrors.push(`Property ${key} must be greater than ${properties.min}`);
@@ -177,16 +183,12 @@ module.exports = class Schemy {
 					}
 				}
 
-				else if (typeof properties.type === 'string') {
-					// uuid/v1
-					if (properties.type === 'uuid/v1' && !/([a-z0-9]){8}-([a-z0-9]){4}-([a-z0-9]{4})-([a-z0-9]{4})-([a-z0-9]{12})/.test(data[key])) {
-						this.validationErrors.push(`Property ${key} is not a valid uuid/v1`);
-					}
+				else if (properties.type === 'uuid/v1' && !/([a-z0-9]){8}-([a-z0-9]){4}-([a-z0-9]{4})-([a-z0-9]{4})-([a-z0-9]{12})/.test(data[key])) {
+					this.validationErrors.push(`Property ${key} is not a valid uuid/v1`);
+				}
 
-					// uuid/v4
-					if (properties.type === 'uuid/v4' && !/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(data[key])) {
-						this.validationErrors.push(`Property ${key} is not a valid uuid/v4`);
-					}
+				else if (properties.type === 'uuid/v4' && !/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(data[key])) {
+					this.validationErrors.push(`Property ${key} is not a valid uuid/v4`);
 				}
 
 				else if (typeof properties.type === 'object' && Array.isArray(properties.type)) {
@@ -210,6 +212,10 @@ module.exports = class Schemy {
 	 * @returns {Array<String>} Array with string of errors
 	 */
 	getValidationErrors() {
+		if (!this.validationRan) {
+			throw new Error('You need to call .validate() before .getValidationErrors()');
+		}
+
 		return this.validationErrors;
 	}
 

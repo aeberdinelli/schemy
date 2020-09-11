@@ -1,8 +1,13 @@
 module.exports = class Schemy {
 	constructor(schema) {
 		for (var [key, properties] of Object.entries(schema)) {
-			if (key !== 'strict' && !properties.type) {
-				throw new Error(`Property ${key} has no type defined`);
+			if (key !== 'strict' && key !== 'required' && !properties.type) {
+				try {
+					schema[key] = { type: new Schemy(properties), required: !!properties.required };
+					delete schema.required;
+				} catch (err) {
+					throw new Error(`Could not parse property ${key} as schema`);
+				}
 			}
 
 			if (typeof properties.type === 'function') {
@@ -194,6 +199,14 @@ module.exports = class Schemy {
 				else if (typeof properties.type === 'object' && Array.isArray(properties.type)) {
 					if (!Array.isArray(data[key])) {
 						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected array`);
+					}
+
+					else if (properties.type[0] instanceof Schemy) {
+						if (data[key].some(item => !properties.type[0].validate(item))) {
+							this.validationErrors.push(`An item in array of property ${key} is not valid`);
+						}
+
+						continue;
 					}
 
 					else if (properties.type.length === 1 && data[key].some(item => typeof item !== typeof properties.type[0]())) {

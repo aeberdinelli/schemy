@@ -140,4 +140,44 @@ describe('Schemy basic validations', function() {
 		expect(result).toBe(false);
 		expect(schemaPerson.getValidationErrors()[0]).toBe('Missing required property name.firstname');
 	});
+
+	it('Should validate all items in array of schemy passes their schema validation', function() {
+		const productSchema = new Schemy({
+			price: {type: Number, required: true}
+		});
+
+		const schema = new Schemy({
+			products: {
+				type: [productSchema]
+			}
+		});
+
+		expect(schema.validate({
+			products: [
+				{
+					price: 1
+				}
+			]
+		})).toBe(true);
+	});
+
+	it('Should fail validation if a child array schema fails validation', function() {
+		const productSchema = new Schemy({
+			price: {type: Number, required: true}
+		});
+
+		const schema = new Schemy({
+			products: {
+				type: [productSchema]
+			}
+		});
+
+		expect(schema.validate({
+			products: [
+				{
+					price: 'abc'
+				}
+			]
+		})).toBe(false);
+	});
 });

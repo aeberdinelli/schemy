@@ -1,16 +1,6 @@
 const Schemy = require('../index');
 
 describe('Schemy instance validation', function() {
-	it('Should fail if passed a property without rules', function() {
-		expect(function() {
-			new Schemy({
-				title: {
-					required: true
-				}
-			});
-		}).toThrow(new Error('Property title has no type defined'));
-	});
-
 	it('Should fail if using a non supported type', function() {
 		expect(function() {
 			new Schemy({
@@ -109,5 +99,21 @@ describe('Schemy instance validation', function() {
 				}
 			})
 		}).toThrow(new Error('Invalid schema for age: max property must be a number'));
+	});
+
+	it('Should auto parse child schemas', function() {
+		const schema = new Schemy({
+			child: {
+				title: {type: String, required: true},
+				subtitle: {type: String}
+			}
+		});
+
+		expect(schema.validate({
+			child: {
+				title: 'abc',
+				subtitle: 1
+			}
+		})).toBe(false);
 	});
 });

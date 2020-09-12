@@ -6,51 +6,48 @@ module.exports = class Schemy {
 					schema[key] = { type: new Schemy(properties), required: !!properties.required };
 					delete schema.required;
 				} catch (err) {
-					throw new Error(`Could not parse property ${key} as schema`);
+					throw `Could not parse property ${key} as schema`;
 				}
 			}
 
 			if (typeof properties.type === 'function') {
 				if (['boolean','string','number','object'].indexOf(typeof properties['type']()) === -1) {
-					throw new Error(`Unsupported type on ${key}: ${typeof properties['type']()}`);
+					throw `Unsupported type on ${key}: ${typeof properties['type']()}`;
 				}
 
 				if (typeof properties['type']() !== 'string' && (properties.enum || properties.regex)) {
-					throw new Error(`Invalid schema for ${key}: regex and enum can be set only for strings`);
+					throw `Invalid schema for ${key}: regex and enum can be set only for strings`;
 				}
 
 				if (properties.regex && !(properties.regex instanceof RegExp)) {
-					throw new Error(`Invalid schema for ${key}: regex must be an instance of RegExp`);
+					throw `Invalid schema for ${key}: regex must be an instance of RegExp`;
 				}
 
 				if (properties.min && typeof properties.min !== 'number') {
-					throw new Error(`Invalid schema for ${key}: min property must be a number`);
+					throw `Invalid schema for ${key}: min property must be a number`;
 				}
 
 				if (properties.max && typeof properties.max !== 'number') {
-					throw new Error(`Invalid schema for ${key}: max property must be a number`);
+					throw `Invalid schema for ${key}: max property must be a number`;
 				}
 			}
 
 			else if (typeof properties.type === 'string' && ['uuid/v1','uuid/v4'].indexOf(properties.type) === -1) {
-				throw new Error(`Unsupported type on ${key}: ${properties.type}`);
+				throw `Unsupported type on ${key}: ${properties.type}`;
 			}
 
 			else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
-				throw new Error(`Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`);
+				throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
 			}
 		}
 
-		this.validationErrors = [];
-		this.missing = [];
-		
+		this.validationErrors = null;
 		this.flex = (schema.strict === false);
+		this.data = null;
 
 		delete schema.strict;
 
 		this.schema = schema;
-		this.data = null;
-		this.validationRan = false;
 	}
 
 	/**
@@ -64,17 +61,13 @@ module.exports = class Schemy {
 			try {
 				schema = new Schemy(schema);
 			} catch (e) {
-				throw new Error('Second argument must be an instance of Schemy or a valid schema');
+				throw 'Second argument must be an instance of Schemy or a valid schema';
 			}
 		}
 
 		return new Promise((resolve, reject) => {
-			if (!schema.validate(body)) {
-				return reject(schema.getValidationErrors());
-			}
-
 			/* istanbul ignore next */
-			return resolve(true);
+			return (schema.validate(body)) ? resolve(true) : reject(schema.getValidationErrors());
 		});
 	}
 
@@ -85,9 +78,7 @@ module.exports = class Schemy {
 	 * @returns {Boolean} true if validated correctly, false otherwise
 	 */
 	validate(data) {
-		this.validationRan = true;
 		this.validationErrors = [];
-		this.missing = [];
 		this.data = data;
 
 		if (!data) {
@@ -225,8 +216,8 @@ module.exports = class Schemy {
 	 * @returns {Array<String>} Array with string of errors
 	 */
 	getValidationErrors() {
-		if (!this.validationRan) {
-			throw new Error('You need to call .validate() before .getValidationErrors()');
+		if (this.validationErrors === null) {
+			throw 'You need to call .validate() before .getValidationErrors()';
 		}
 
 		return this.validationErrors;

@@ -39,7 +39,7 @@ describe('Schemy methods', function() {
 			schema.getValidationErrors();
 		} 
 		catch (err) {
-			expect(err.message).toBe('You need to call .validate() before .getValidationErrors()');
+			expect(err).toBe('You need to call .validate() before .getValidationErrors()');
 		}
 	});
 

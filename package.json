@@ -27,7 +27,7 @@
     "exclude": "**/*.spec.js"
   },
   "homepage": "https://github.com/aeberdinelli/schemy",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "jasmine": "^3.5.0",
     "jasmine-core": "^3.5.0",

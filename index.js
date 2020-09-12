@@ -201,7 +201,7 @@ module.exports = class Schemy {
 						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected array`);
 					}
 
-					else if (properties.type[0] instanceof Schemy) {
+					else if (properties.type.length === 1 && properties.type[0] instanceof Schemy) {
 						if (data[key].some(item => !properties.type[0].validate(item))) {
 							this.validationErrors.push(`An item in array of property ${key} is not valid`);
 						}

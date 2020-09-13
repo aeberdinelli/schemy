@@ -24,14 +24,19 @@ Then, create a schema with the desired properties and their types:
 const Schemy = require('schemy');
 
 const nameSchema = new Schemy({
-    'firstname': { type: String },
-    'lastname': { type: String }
+    'firstname': String,
+    'lastname': String
 });
 
 const characterSchema = new Schemy({
     'name': {
         type: nameSchema, // You can also use nested schemas
         required: true
+    },
+    // You can also use nested schemas with our short format
+    'address': {
+        street: String,
+        number: Number
     },
     // Schemy has some helpers to validate string formats like v1 uuid
     'id': {

@@ -2,20 +2,26 @@ module.exports = class Schemy {
 	constructor(schema) {
 		for (var [key, properties] of Object.entries(schema)) {
 			if (key !== 'strict' && key !== 'required' && !properties.type) {
-				try {
-					schema[key] = { type: new Schemy(properties), required: !!properties.required };
-					delete schema.required;
-				} catch (err) {
-					throw `Could not parse property ${key} as schema`;
+				if (typeof properties === 'function' || properties === 'uuid/v1' || properties === 'uuid/v4') {
+					schema[key] = { type: properties, required: true };
+				}
+				
+				else if (typeof properties === 'object') {
+					try {
+						schema[key] = { type: new Schemy(properties), required: !!properties.required };
+						delete schema.required;
+					} catch (err) {
+						throw `Could not parse property ${key} as schema`;
+					}
 				}
 			}
 
 			if (typeof properties.type === 'function') {
-				if (['boolean','string','number','object'].indexOf(typeof properties['type']()) === -1) {
-					throw `Unsupported type on ${key}: ${typeof properties['type']()}`;
+				if (['boolean','string','number','object'].indexOf(typeof properties.type()) === -1) {
+					throw `Unsupported type on ${key}: ${typeof properties.type()}`;
 				}
 
-				if (typeof properties['type']() !== 'string' && (properties.enum || properties.regex)) {
+				if (typeof properties.type() !== 'string' && (properties.enum || properties.regex)) {
 					throw `Invalid schema for ${key}: regex and enum can be set only for strings`;
 				}
 
@@ -140,12 +146,12 @@ module.exports = class Schemy {
 
 				else if (typeof properties.type === 'function') {
 					// Check native types
-					if (typeof data[key] !== typeof properties['type']()) {
-						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected ${typeof properties['type']()}`);
+					if (typeof data[key] !== typeof properties.type()) {
+						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected ${typeof properties.type()}`);
 					}
 
 					// Check string: enum, regex, min, max
-					else if (typeof properties['type']() === 'string') {
+					else if (typeof properties.type() === 'string') {
 						if (properties.enum) {
 							if (properties.enum.indexOf(data[key]) === -1) {
 								this.validationErrors.push(`Value for property ${key} not in acceptable values`);
@@ -168,7 +174,7 @@ module.exports = class Schemy {
 					}
 
 					// Check number min/max
-					else if (typeof properties['type']() === 'number') {
+					else if (typeof properties.type() === 'number') {
 						if (typeof properties.min !== 'undefined' && data[key] < properties.min) {
 							this.validationErrors.push(`Property ${key} must be greater than ${properties.min}`);
 						}

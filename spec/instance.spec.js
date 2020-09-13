@@ -116,4 +116,16 @@ describe('Schemy instance validation', function() {
 			}
 		})).toBe(false);
 	});
+
+	it('Should throw error trying to auto parse a malformed schema', function() {
+		expect(function() {
+			const schema = new Schemy({
+				data: {
+					title: {
+						type: [String, Number]
+					}
+				}
+			});
+		}).toThrow(new Error('Could not parse property data as schema'));
+	});
 });

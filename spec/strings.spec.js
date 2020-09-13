@@ -77,4 +77,12 @@ describe('Schemy string validations', function() {
 
 		expect(schema.validate({name: 'abcd'})).toBe(false);
 	});
+
+	it('Should fail validation if value is not string on a shorted string rule', function() {
+		const schema = new Schemy({
+			name: String
+		});
+
+		expect(schema.validate({ name: 1 })).toBe(false);
+	});
 });

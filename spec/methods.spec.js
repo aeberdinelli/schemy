@@ -123,5 +123,5 @@ describe('Schemy methods', function() {
 		Schemy.validate(input, schema).then(result => {
 			expect(result).toBe(true);
 		});
-	})
+	});
 });

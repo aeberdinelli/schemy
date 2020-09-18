@@ -4,6 +4,7 @@ Schemy is an extremely simple, light schema validation library. Perfect for ligh
 ## Features
 ✅ **Ultra lightweight**<br />
 ✅ **Ultra fast**<br />
+✅ **Plugin support**<br />
 ✅ Easy to read codebase<br />
 ✅ Nested schemas validation<br />
 ✅ Custom regex rules<br />

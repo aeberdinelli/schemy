@@ -1,66 +1,34 @@
 module.exports = class Schemy {
-	constructor(schema) {
-		for (var [key, properties] of Object.entries(schema)) {
-			if (key !== 'strict' && key !== 'required' && !properties.type) {
-				if (typeof properties === 'function' || properties === 'uuid/v1' || properties === 'uuid/v4') {
-					schema[key] = { type: properties, required: true };
-				}
-				
-				else if (typeof properties === 'object') {
-					try {
-						schema[key] = { type: new Schemy(properties), required: !!properties.required };
-						delete schema.required;
-					} catch (err) {
-						throw `Could not parse property ${key} as schema`;
-					}
-				}
-			}
+	/**
+	 * Extend Schemy functionality with plugins
+	 * 
+	 * @param {Array} plugins Array of schemy plugins to load (or a single one)
+	 */
+	static extend(plugins) {
+		plugins = Array.isArray(plugins) ? plugins : [plugins];
+		
+		Schemy.plugins = [
+			...(Schemy.plugins || []),
+			...plugins
+		];
+	}
 
-			if (typeof properties.type === 'function') {
-				if (['boolean','string','number','object'].indexOf(typeof properties.type()) === -1) {
-					throw `Unsupported type on ${key}: ${typeof properties.type()}`;
+	// Trigger plugin methods based on event
+	static triggerEvent(event, body) {
+		if (Schemy.plugins && Schemy.plugins.length > 0) {
+			for (var plugin of Schemy.plugins) {
+				if (typeof plugin[event] !== 'undefined') {
+					plugin[event].call(this, body);
 				}
-
-				if (typeof properties.type() !== 'string' && (properties.enum || properties.regex)) {
-					throw `Invalid schema for ${key}: regex and enum can be set only for strings`;
-				}
-
-				if (properties.regex && !(properties.regex instanceof RegExp)) {
-					throw `Invalid schema for ${key}: regex must be an instance of RegExp`;
-				}
-
-				if (properties.min && typeof properties.min !== 'number') {
-					throw `Invalid schema for ${key}: min property must be a number`;
-				}
-
-				if (properties.max && typeof properties.max !== 'number') {
-					throw `Invalid schema for ${key}: max property must be a number`;
-				}
-			}
-
-			else if (typeof properties.type === 'string' && ['uuid/v1','uuid/v4'].indexOf(properties.type) === -1) {
-				throw `Unsupported type on ${key}: ${properties.type}`;
-			}
-
-			else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
-				throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
 			}
 		}
-
-		this.validationErrors = null;
-		this.flex = (schema.strict === false);
-		this.data = null;
-
-		delete schema.strict;
-
-		this.schema = schema;
 	}
 
 	/**
 	 * Async validates an object against a schema
 	 * 
 	 * @param {Object} body Object to validate
-	 * @param {Schemy} schema Schemy instance to validate against to
+	 * @param {Object|Schemy} schema Schemy instance or raw schema to validate against to
 	 */
 	static async validate(body, schema) {
 		if (!(schema instanceof Schemy)) {
@@ -77,6 +45,70 @@ module.exports = class Schemy {
 		});
 	}
 
+	constructor(schema) {
+		Schemy.triggerEvent.call(this, 'beforeParse', schema);
+
+		// If schema was already parsed by a plugin, prevent parsing it again
+		if (!this.schemaParsed) {
+			for (var [key, properties] of Object.entries(schema)) {
+				if (key !== 'strict' && key !== 'required' && !properties.type) {
+					if (typeof properties === 'function' || properties === 'uuid/v1' || properties === 'uuid/v4') {
+						schema[key] = { type: properties, required: true };
+					}
+					
+					else if (typeof properties === 'object') {
+						try {
+							schema[key] = { type: new Schemy(properties), required: !!properties.required };
+							delete schema.required;
+						} catch (err) {
+							throw `Could not parse property ${key} as schema`;
+						}
+					}
+				}
+
+				if (typeof properties.type === 'function') {
+					if (['boolean','string','number','object'].indexOf(typeof properties.type()) === -1) {
+						throw `Unsupported type on ${key}: ${typeof properties.type()}`;
+					}
+
+					if (typeof properties.type() !== 'string' && (properties.enum || properties.regex)) {
+						throw `Invalid schema for ${key}: regex and enum can be set only for strings`;
+					}
+
+					if (properties.regex && !(properties.regex instanceof RegExp)) {
+						throw `Invalid schema for ${key}: regex must be an instance of RegExp`;
+					}
+
+					if (properties.min && typeof properties.min !== 'number') {
+						throw `Invalid schema for ${key}: min property must be a number`;
+					}
+
+					if (properties.max && typeof properties.max !== 'number') {
+						throw `Invalid schema for ${key}: max property must be a number`;
+					}
+				}
+
+				else if (typeof properties.type === 'string' && ['uuid/v1','uuid/v4'].indexOf(properties.type) === -1) {
+					throw `Unsupported type on ${key}: ${properties.type}`;
+				}
+
+				else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
+					throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
+				}
+			}
+		}
+
+		Schemy.triggerEvent.call(this, 'afterParse', schema);
+
+		this.validationErrors = null;
+		this.flex = (schema.strict === false);
+		this.data = null;
+
+		delete schema.strict;
+
+		this.schema = schema;
+	}
+
 	/**
 	 * Validates data against this schema
 	 * 
@@ -84,6 +116,8 @@ module.exports = class Schemy {
 	 * @returns {Boolean} true if validated correctly, false otherwise
 	 */
 	validate(data) {
+		Schemy.triggerEvent.call(this, 'beforeValidate', data);
+
 		this.validationErrors = [];
 		this.data = data;
 
@@ -213,6 +247,8 @@ module.exports = class Schemy {
 			}
 		}
 
+		Schemy.triggerEvent.call(this, 'afterValidate', data);
+
 		return (this.validationErrors.length === 0);
 	}
 
@@ -225,6 +261,8 @@ module.exports = class Schemy {
 		if (this.validationErrors === null) {
 			throw 'You need to call .validate() before .getValidationErrors()';
 		}
+
+		Schemy.triggerEvent.call(this, 'getValidationErrors', null);
 
 		return this.validationErrors;
 	}

@@ -17,7 +17,7 @@ module.exports = class Schemy {
 	static triggerEvent(event, body) {
 		if (Schemy.plugins && Schemy.plugins.length > 0) {
 			for (var plugin of Schemy.plugins) {
-				if (typeof plugin[event] !== 'undefined') {
+				if (typeof plugin[event] === 'function') {
 					plugin[event].call(this, body);
 				}
 			}
@@ -121,12 +121,12 @@ module.exports = class Schemy {
 		this.validationErrors = [];
 		this.data = data;
 
-		if (!data) {
-			this.validationErrors.push('Cannot validate empty object');
+		if (!data || typeof data !== 'object') {
+			this.validationErrors.push('Data passed to validate is incorrect. It must be an object.');
 			return false;
 		}
 
-		if (!this.flex && typeof data === 'object') {
+		if (!this.flex) {
 			Object.keys(data).forEach(key => {
 				if (!this.schema[key]) {
 					this.validationErrors.push(`Property ${key} not valid in schema`);
@@ -138,15 +138,11 @@ module.exports = class Schemy {
 			// Populate with default value if available
 			if (typeof properties.default !== 'undefined' && properties.default !== null) {
 				if (typeof properties.default === 'function') {
-					try {
-						data[key] = properties.default();
-						this.data[key] = properties.default();
-					} catch (e) {}
+					try { data[key] = properties.default() } catch (e) {}
 				}
 
 				else if (['string','number'].indexOf(typeof properties.default) !== -1) {
 					data[key] = properties.default;
-					this.data[key] = properties.default;
 				}
 			}
 
@@ -156,20 +152,18 @@ module.exports = class Schemy {
 				continue;
 			}
 
-			// All required optional data and empty should not validate
+			// All optional data and empty should not validate
 			if (!data[key]) {
 				continue;
 			}
 
 			if (properties.type) {
 				// Validate child schema
-				if (properties.type instanceof Schemy) {
-					if (!properties.type.validate(data[key])) {
-						this.validationErrors = [
-							...this.validationErrors,
-							...properties.type.getValidationErrors().map(error => error.replace('roperty ',`roperty ${key}.`))
-						];
-					}
+				if (properties.type instanceof Schemy && !properties.type.validate(data[key])) {
+					this.validationErrors = [
+						...this.validationErrors,
+						...properties.type.getValidationErrors().map(error => error.replace('roperty ',`roperty ${key}.`))
+					];
 				}
 
 				else if (properties.type === Date) {
@@ -186,16 +180,12 @@ module.exports = class Schemy {
 
 					// Check string: enum, regex, min, max
 					else if (typeof properties.type() === 'string') {
-						if (properties.enum) {
-							if (properties.enum.indexOf(data[key]) === -1) {
-								this.validationErrors.push(`Value for property ${key} not in acceptable values`);
-							}
+						if (properties.enum && properties.enum.indexOf(data[key]) === -1) {
+							this.validationErrors.push(`Value for property ${key} not in acceptable values`);
 						}
 
-						if (properties.regex) {
-							if (!properties.regex.test(data[key])) {
-								this.validationErrors.push(`Regex validation failed for property ${key}`);
-							}
+						if (properties.regex && !properties.regex.test(data[key])) {
+							this.validationErrors.push(`Regex validation failed for property ${key}`);
 						}
 
 						if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {
@@ -212,7 +202,7 @@ module.exports = class Schemy {
 						if (typeof properties.min !== 'undefined' && data[key] < properties.min) {
 							this.validationErrors.push(`Property ${key} must be greater than ${properties.min}`);
 						}
-
+						
 						if (typeof properties.max !== 'undefined' && data[key] > properties.max) {
 							this.validationErrors.push(`Property ${key} must be less than ${properties.max}`);
 						}

@@ -153,7 +153,7 @@ module.exports = class Schemy {
 			}
 
 			// All optional data and empty should not validate
-			if (!data[key]) {
+			if (typeof data[key] === 'undefined') {
 				continue;
 			}
 

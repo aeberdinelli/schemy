@@ -67,7 +67,7 @@ module.exports = class Schemy {
 				}
 
 				if (typeof properties.type === 'function') {
-					if (['boolean','string','number','object'].indexOf(typeof properties.type()) === -1) {
+					if (['boolean','string','number','object','function'].indexOf(typeof properties.type()) === -1) {
 						throw `Unsupported type on ${key}: ${typeof properties.type()}`;
 					}
 

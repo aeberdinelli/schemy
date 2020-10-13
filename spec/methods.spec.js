@@ -138,7 +138,7 @@ describe('Schemy methods', function() {
 
 		schema.validate(input);
 
-		const keys = Object.keys(schema.getBody(false, true));
+		const keys = Object.keys(schema.getBody(false, false));
 
 		expect(keys[0]).toBe('name');
 		expect(keys[1]).toBe('lastname');
@@ -157,7 +157,7 @@ describe('Schemy methods', function() {
 
 		schema.validate(input);
 
-		const keys = Object.keys(schema.getBody());
+		const keys = Object.keys(schema.getBody(true, true));
 
 		expect(keys[0]).toBe('lastname');
 		expect(keys[1]).toBe('name');

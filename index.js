@@ -261,12 +261,12 @@ module.exports = class Schemy {
 	 * Get the data provided in the last validation
 	 * 
 	 * @param {Boolean} includeAll Include properties not declared in schema
-	 * @param {Boolean} keepOrder Maintain the original order instead of schema for data keys
+	 * @param {Boolean} orderBody Order the body based on the schema
 	 * @returns {Object} Last validated data
 	 */
-	getBody(includeAll = false, keepOrder = false) {
-		const output = { ...this.data };
-		const ordered = {};
+	getBody(includeAll = false, orderBody = true) {
+		let output = { ...this.data };
+		let ordered = {};
 
 		if (this.flex && !includeAll) {
 			Object.keys(output).forEach(key => {
@@ -276,14 +276,21 @@ module.exports = class Schemy {
 			});
 		}
 
-		if (keepOrder) {
+		if (!orderBody) {
 			return output;
 		}
 
+		// Add key in orders
 		for (const key in this.schema) {
 			if (typeof output[key] !== 'undefined') {
 				ordered[key] = output[key];
+				delete output[key];
 			}
+		}
+
+		// Add remaining things not in the schema
+		for (const key in output) {
+			ordered[key] = output[key];
 		}
 
 		return ordered;

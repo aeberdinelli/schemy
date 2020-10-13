@@ -124,4 +124,42 @@ describe('Schemy methods', function() {
 			expect(result).toBe(true);
 		});
 	});
+
+	it('Should return validated data without changing its order', function() {
+		const schema = new Schemy({
+			lastname: String,
+			name: String
+		});
+
+		const input = {
+			name: 'Name',
+			lastname: 'Lastname'
+		};
+
+		schema.validate(input);
+
+		const keys = Object.keys(schema.getBody(false, true));
+
+		expect(keys[0]).toBe('name');
+		expect(keys[1]).toBe('lastname');
+	});
+
+	it('Should return ordered validated data', function() {
+		const schema = new Schemy({
+			lastname: String,
+			name: String
+		});
+
+		const input = {
+			name: 'Name',
+			lastname: 'Lastname'
+		};
+
+		schema.validate(input);
+
+		const keys = Object.keys(schema.getBody());
+
+		expect(keys[0]).toBe('lastname');
+		expect(keys[1]).toBe('name');
+	});
 });

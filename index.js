@@ -32,11 +32,7 @@ module.exports = class Schemy {
 	 */
 	static async validate(body, schema) {
 		if (!(schema instanceof Schemy)) {
-			try {
-				schema = new Schemy(schema);
-			} catch (e) {
-				throw 'Second argument must be an instance of Schemy or a valid schema';
-			}
+			schema = new Schemy(schema);
 		}
 
 		return new Promise((resolve, reject) => {
@@ -50,6 +46,10 @@ module.exports = class Schemy {
 
 		// If schema was already parsed by a plugin, prevent parsing it again
 		if (!this.schemaParsed) {
+			if (typeof schema !== 'object') {
+				throw 'Schemy must receive an object with a schema';
+			}
+
 			for (var [key, properties] of Object.entries(schema)) {
 				if (key !== 'strict' && key !== 'required' && !properties.type) {
 					if (typeof properties === 'function' || properties === 'uuid/v1' || properties === 'uuid/v4') {
@@ -261,10 +261,12 @@ module.exports = class Schemy {
 	 * Get the data provided in the last validation
 	 * 
 	 * @param {Boolean} includeAll Include properties not declared in schema
+	 * @param {Boolean} keepOrder Maintain the original order instead of schema for data keys
 	 * @returns {Object} Last validated data
 	 */
-	getBody(includeAll = false) {
+	getBody(includeAll = false, keepOrder = false) {
 		const output = { ...this.data };
+		const ordered = {};
 
 		if (this.flex && !includeAll) {
 			Object.keys(output).forEach(key => {
@@ -274,6 +276,16 @@ module.exports = class Schemy {
 			});
 		}
 
-		return output;
+		if (keepOrder) {
+			return output;
+		}
+
+		for (const key in this.schema) {
+			if (typeof output[key] !== 'undefined') {
+				ordered[key] = output[key];
+			}
+		}
+
+		return ordered;
 	}
 }

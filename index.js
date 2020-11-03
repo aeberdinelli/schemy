@@ -222,6 +222,14 @@ module.exports = class Schemy {
 						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected array`);
 					}
 
+					if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {
+						this.validationErrors.push(`Property ${key} must contain at least ${properties.min} elements`);
+					}
+
+					if (typeof properties.max !== 'undefined' && data[key].length > properties.max) {
+						this.validationErrors.push(`Property ${key} must contain no more than ${properties.max} elements`);
+					}
+
 					else if (properties.type.length === 1 && properties.type[0] instanceof Schemy) {
 						if (data[key].some(item => !properties.type[0].validate(item))) {
 							this.validationErrors.push(`An item in array of property ${key} is not valid`);

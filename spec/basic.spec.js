@@ -180,4 +180,30 @@ describe('Schemy basic validations', function() {
 			]
 		})).toBe(false);
 	});
+
+	it('Should faild validation if number of items is less than required', function() {
+		const schema = new Schemy({
+			items: {
+				type: [],
+				min: 1
+			}
+		});
+
+		expect(schema.validate({
+			items: []
+		})).toBe(false);
+	});
+
+	it('Should fail validation if number of items is greater than max', function() {
+		const schema = new Schemy({
+			items: {
+				type: [],
+				max: 2
+			}
+		});
+
+		expect(schema.validate({
+			items: [1, 2, 3]
+		})).toBe(false);
+	})
 });

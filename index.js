@@ -41,8 +41,14 @@ module.exports = class Schemy {
 		});
 	}
 
-	constructor(schema) {
+	/**
+	 * @param {Object} schema Object with properties and their rules
+	 * @param {Object} settings Settings for this schema
+	 */
+	constructor(schema, { strict } = {}) {
 		Schemy.triggerEvent.call(this, 'beforeParse', schema);
+
+		const settings = arguments[1] || {};
 
 		// If schema was already parsed by a plugin, prevent parsing it again
 		if (!this.schemaParsed) {
@@ -64,6 +70,12 @@ module.exports = class Schemy {
 							throw `Could not parse property ${key} as schema`;
 						}
 					}
+				}
+
+				else if (key === 'strict' && typeof properties === 'boolean') {
+					settings.strict = properties;
+					delete schema[key];
+					continue;
 				}
 
 				if (typeof properties.type === 'function') {
@@ -101,11 +113,8 @@ module.exports = class Schemy {
 		Schemy.triggerEvent.call(this, 'afterParse', schema);
 
 		this.validationErrors = null;
-		this.flex = (schema.strict === false);
+		this.flex = (settings.strict === false);
 		this.data = null;
-
-		delete schema.strict;
-
 		this.schema = schema;
 	}
 

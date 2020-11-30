@@ -162,4 +162,22 @@ describe('Schemy methods', function() {
 		expect(keys[0]).toBe('lastname');
 		expect(keys[1]).toBe('name');
 	});
+
+	it('Should return all data', function() {
+		const schema = new Schemy({
+			title: String,
+			strict: false
+		});
+
+		const result = schema.validate({
+			title: 'something',
+			name: 'name',
+			lastname: 'lastname'
+		});
+
+		const body = schema.getBody(true, true);
+
+		expect(body.name).toBeDefined();
+		expect(body.lastname).toBeDefined();
+	});
 });

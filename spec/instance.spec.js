@@ -23,6 +23,17 @@ describe('Schemy instance validation', function() {
 		}).toThrow(new Error('Invalid schema for title: regex and enum can be set only for strings'));
 	});
 
+	it('Should fail if custom validator is not a function', function() {
+		expect(function() {
+			new Schemy({
+				title: {
+					type: String,
+					custom: 'string'
+				}
+			});
+		}).toThrow(new Error('Custom validator for title must be a function'));
+	});
+
 	it('Should fail if using enum on a non string property', function() {
 		expect(function() {
 			new Schemy({

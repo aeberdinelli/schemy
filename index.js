@@ -78,7 +78,7 @@ module.exports = class Schemy {
 					continue;
 				}
 
-				if (typeof properties.type === 'function') {
+				else if (typeof properties.type === 'function') {
 					if (['boolean','string','number','object','function'].indexOf(typeof properties.type()) === -1) {
 						throw `Unsupported type on ${key}: ${typeof properties.type()}`;
 					}
@@ -104,8 +104,21 @@ module.exports = class Schemy {
 					throw `Unsupported type on ${key}: ${properties.type}`;
 				}
 
-				else if (typeof properties.type === 'object' && Array.isArray(properties.type) && properties.type.length > 1) {
-					throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
+				else if (typeof properties.type === 'object' && Array.isArray(properties.type)) {
+					if (properties.type.length > 1) {
+						throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
+					}
+
+					if (typeof properties.type[0] === 'object') {
+						if (typeof properties.type[0].validate === 'undefined') {
+							// Auto parse array item as schemy
+							properties.type[0] = new Schemy(properties.type[0]);
+						}
+					}
+				}
+
+				if (properties.custom && typeof properties.custom !== 'function') {
+					throw `Custom validator for ${key} must be a function`;
 				}
 			}
 		}
@@ -250,6 +263,18 @@ module.exports = class Schemy {
 					else if (properties.type.length === 1 && data[key].some(item => typeof item !== typeof properties.type[0]())) {
 						this.validationErrors.push(`An item in array of property ${key} is not valid. All items must be of type ${typeof properties.type[0]()}`);
 					}
+				}
+			}
+
+			if (properties.custom) {
+				const customValidationResult = properties.custom(data[key], data, this.schema);
+
+				if (typeof customValidationResult === 'string') {
+					this.validationErrors.push(customValidationResult);
+				}
+				
+				else if (customValidationResult !== true) {
+					this.validationErrors.push(`Custom validation failed for property ${key}`);
 				}
 			}
 		}

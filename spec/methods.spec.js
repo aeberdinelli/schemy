@@ -69,7 +69,7 @@ describe('Schemy methods', function() {
 		const input = {title: 'something', age: 21};
 
 		expect(schema.validate(input)).toBe(true);
-		expect(schema.getBody()).toEqual({title: 'something'});
+		expect(schema.getBody()).toEqual({title: 'something', age: 21});
 	});
 
 	it('Should throw error if passing not Schemy instance as validation argument', async function() {

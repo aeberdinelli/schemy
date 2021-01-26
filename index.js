@@ -306,7 +306,7 @@ module.exports = class Schemy {
 	 * @param {Boolean} orderBody Order the body based on the schema
 	 * @returns {Object} Last validated data
 	 */
-	getBody(includeAll = false, orderBody = true) {
+	getBody(includeAll = true, orderBody = true) {
 		let output = { ...this.data };
 		let ordered = {};
 

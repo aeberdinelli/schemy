@@ -1,6 +1,8 @@
 # Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> | [Documentation ↗](https://github.com/aeberdinelli/schemy/wiki)
 Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 15 KB!
 
+### Note
+**Breaking change:** From version 2 the strict setting was moved to a different argument and no longer has effect when used within the schema. Please take a look at [the changelog ↗](https://github.com/aeberdinelli/schemy/releases/tag/v2.0.0) for more details.
 
 ## Features
 ✅ **Ultra lightweight**<br />

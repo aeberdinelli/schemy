@@ -57,7 +57,7 @@ module.exports = class Schemy {
 			}
 
 			for (var [key, properties] of Object.entries(schema)) {
-				if (key !== 'strict' && key !== 'required' && !properties.type) {
+				if (key !== 'required' && !properties.type) {
 					if (typeof properties === 'function' || properties === 'uuid/v1' || properties === 'uuid/v4') {
 						schema[key] = { type: properties, required: true };
 					}
@@ -70,12 +70,6 @@ module.exports = class Schemy {
 							throw `Could not parse property ${key} as schema`;
 						}
 					}
-				}
-
-				else if (key === 'strict' && typeof properties === 'boolean') {
-					settings.strict = properties;
-					delete schema[key];
-					continue;
 				}
 
 				else if (typeof properties.type === 'function') {

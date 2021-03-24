@@ -58,7 +58,7 @@ describe('Schemy methods', function() {
 		expect(schema.getBody()).toEqual(input);
 	});
 
-	it('Should return validated data with extra values', function() {
+	it('Should return false when strict setting is not passed', function() {
 		const schema = new Schemy({
 			title: {
 				type: String
@@ -66,11 +66,23 @@ describe('Schemy methods', function() {
 			strict: false
 		});
 		
-		const input = {title: 'something', age: 21};
+		const input = { title: 'something', age: 21 };
+
+		expect(schema.validate(input)).toBe(false);
+	});
+
+	it('Should return true if strict setting is true and schema contains extra properties', function() {
+		const schema = new Schemy({
+			title: {
+				type: String
+			}
+		}, { strict: false });
+
+		const input = { title: 'something', age: 21 };
 
 		expect(schema.validate(input)).toBe(true);
 		expect(schema.getBody()).toEqual({title: 'something'});
-	});
+	})
 
 	it('Should throw error if passing not Schemy instance as validation argument', async function() {
 		expect(await Schemy.validate({}, {})).toThrow('Second argument must be an instance of Schemy');

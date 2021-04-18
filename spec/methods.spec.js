@@ -73,6 +73,12 @@ describe('Schemy methods', function() {
 		expect(result.lastname).toBe('--lastname--');
 	});
 
+	it('Should throw error trying to validate incorrect body', async function() {
+		const schema = new Schemy({ name: String });
+
+		expect(await Schemy.validate({ name: '--name--', lastname: '--lastname--' }, schema)).toEqual(['Property lastname not valid in schema']);
+	});
+
 	it('Should return false when strict setting is not passed', function() {
 		const schema = new Schemy({
 			title: {

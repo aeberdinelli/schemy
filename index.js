@@ -25,25 +25,38 @@ module.exports = class Schemy {
 	}
 
 	/**
-	 * Async validates an object against a schema
+	 * Async validates an object against a schema and returns the body
 	 * 
 	 * @param {Object} body Object to validate
 	 * @param {Object|Schemy} schema Schemy instance or raw schema to validate against to
+	 * @param {Boolean} includeAll Include properties not declared in schema, defaults to false
+	 * @param {Boolean} orderBody Order the body based on the schema, defaults to false
 	 */
-	static async validate(body, schema) {
+	static async validate(body, schema, includeAll = false, orderBody = false) {
 		if (!(schema instanceof Schemy)) {
 			schema = new Schemy(schema);
 		}
 
 		return new Promise((resolve, reject) => {
-			/* istanbul ignore next */
-			return (schema.validate(body)) ? resolve(true) : reject(schema.getValidationErrors());
+			if (schema.validate(body)) {
+				return resolve(
+					schema.getBody(includeAll, orderBody)
+				);
+			}
+
+			return reject(schema.getValidationErrors());
 		});
 	}
 
 	/**
+	 * @typedef {Object} SchemySettings
+	 * 
+	 * @property {Boolean} strict Determines if the schema is strict or accepts properties not declared within itself
+	 */
+
+	/**
 	 * @param {Object} schema Object with properties and their rules
-	 * @param {Object} settings Settings for this schema
+	 * @param {SchemySettings} settings Settings for this schema
 	 */
 	constructor(schema, { strict } = {}) {
 		Schemy.triggerEvent.call(this, 'beforeParse', schema);

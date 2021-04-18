@@ -58,6 +58,21 @@ describe('Schemy methods', function() {
 		expect(schema.getBody()).toEqual(input);
 	});
 
+	it('Should return validated data asynchronously', async function() {
+		const schema = new Schemy({ name: String });
+		const result = await Schemy.validate({ name: 'Alan' }, schema);
+
+		expect(result.name).toBe('Alan');
+	});
+
+	it('Should return validated data including unknown properties', async function() {
+		const schema = new Schemy({ name: String }, { strict: false });
+		const result = await Schemy.validate({ name: '--name--', lastname: '--lastname--' }, schema, true);
+
+		expect(result.name).toBe('--name--');
+		expect(result.lastname).toBe('--lastname--');
+	});
+
 	it('Should return false when strict setting is not passed', function() {
 		const schema = new Schemy({
 			title: {

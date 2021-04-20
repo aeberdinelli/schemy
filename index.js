@@ -125,7 +125,7 @@ module.exports = class Schemy {
 				}
 
 				if (properties.custom && typeof properties.custom !== 'function') {
-					throw `Custom validator for ${key} must be a function`;
+					throw `Custom validator for ${key} must be a function, was ${typeof properties.custom}`;
 				}
 			}
 		}
@@ -184,6 +184,18 @@ module.exports = class Schemy {
 			// All optional data and empty should not validate
 			if (typeof data[key] === 'undefined') {
 				continue;
+			}
+
+			if (properties.custom) {
+				const customValidationResult = properties.custom(data[key], data, this.schema);
+
+				if (typeof customValidationResult === 'string') {
+					this.validationErrors.push(customValidationResult);
+				}
+				
+				else if (customValidationResult !== true) {
+					this.validationErrors.push(`Custom validation failed for property ${key}`);
+				}
 			}
 
 			if (properties.type) {
@@ -270,18 +282,6 @@ module.exports = class Schemy {
 					else if (properties.type.length === 1 && data[key].some(item => typeof item !== typeof properties.type[0]())) {
 						this.validationErrors.push(`An item in array of property ${key} is not valid. All items must be of type ${typeof properties.type[0]()}`);
 					}
-				}
-			}
-
-			if (properties.custom) {
-				const customValidationResult = properties.custom(data[key], data, this.schema);
-
-				if (typeof customValidationResult === 'string') {
-					this.validationErrors.push(customValidationResult);
-				}
-				
-				else if (customValidationResult !== true) {
-					this.validationErrors.push(`Custom validation failed for property ${key}`);
 				}
 			}
 		}

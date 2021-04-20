@@ -210,7 +210,7 @@ module.exports = class Schemy {
 					// Check string: enum, regex, min, max
 					else if (typeof properties.type() === 'string') {
 						if (properties.enum && properties.enum.indexOf(data[key]) === -1) {
-							this.validationErrors.push(`Value for property ${key} not in acceptable values`);
+							this.validationErrors.push(`Value of property ${key} does not contain an acceptable value`);
 						}
 
 						if (properties.regex && !properties.regex.test(data[key])) {

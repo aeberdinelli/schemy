@@ -31,7 +31,7 @@ describe('Schemy instance validation', function() {
 					custom: 'string'
 				}
 			});
-		}).toThrow(new Error('Custom validator for title must be a function'));
+		}).toThrow(new Error('Custom validator for title must be a function, was string'));
 	});
 
 	it('Should fail if using enum on a non string property', function() {

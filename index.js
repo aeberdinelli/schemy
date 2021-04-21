@@ -77,8 +77,17 @@ module.exports = class Schemy {
 					
 					else if (typeof properties === 'object') {
 						try {
-							schema[key] = { type: new Schemy(properties), required: !!properties.required };
-							delete schema.required;
+							const parsed = {};
+	
+							if (schema[key].custom) {
+								const { custom } = schema[key];
+								parsed.custom = custom;
+							}
+	
+							parsed.type = new Schemy(properties);
+							parsed.required = !!properties.required;
+	
+							schema[key] = parsed;
 						} catch (err) {
 							throw `Could not parse property ${key} as schema`;
 						}
@@ -116,12 +125,29 @@ module.exports = class Schemy {
 						throw `Invalid schema for ${key}. Array items must be declared of any type, or just one type: [String], [Number]`;
 					}
 
+					// Auto parse array item as schemy
 					if (typeof properties.type[0] === 'object') {
 						if (typeof properties.type[0].validate === 'undefined') {
-							// Auto parse array item as schemy
 							properties.type[0] = new Schemy(properties.type[0]);
 						}
 					}
+				}
+
+				// Parse child schema and keep custom validator if it exists
+				else if (typeof properties.type === 'object') {
+					try {
+						const parsed = {};
+
+						if (schema[key].custom) {
+							const { custom } = schema[key];
+							parsed.custom = custom;
+						}
+
+						parsed.type = new Schemy(properties.type);
+						parsed.required = !!properties.required;
+
+						schema[key] = parsed;
+					} catch (err) {}
 				}
 
 				if (properties.custom && typeof properties.custom !== 'function') {

@@ -14,6 +14,7 @@
     "json",
     "joi",
     "mongoose",
+    "library",
     "dynamoose",
     "node",
     "js"

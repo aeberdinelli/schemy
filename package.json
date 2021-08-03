@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node --verbose --forceexit .",
+    "test-debugger": "node --inspect-brk node_modules/.bin/jasmine-node . --verbose --forceexit",
     "coverage": "nyc npm test",
     "report": "nyc --reporter=html --reporter=text npm test"
   },

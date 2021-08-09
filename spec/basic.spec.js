@@ -92,41 +92,41 @@ describe('Schemy basic validations', function() {
 	});
 
 	it("Should pass validation with correct child schemas using strict property", function () {
-    const nameSchema = new Schemy(
-      {
-        firstname: {
-          type: String,
-          required: true,
-        },
-        lastname: {
-          type: String,
-        },
-      },
-      { strict: false }
-    );
+		const nameSchema = new Schemy(
+			{
+				firstname: {
+					type: String,
+					required: true,
+				},
+				lastname: {
+					type: String,
+				},
+			},
+			{ strict: false }
+		);
 
-    const personSchema = new Schemy(
-      {
-        name: { type: nameSchema, required: true },
-        age: { type: Number, required: true },
-      },
-      { strict: false }
-    );
+		const personSchema = new Schemy(
+			{
+				name: { type: nameSchema, required: true },
+				age: { type: Number, required: true },
+			},
+			{ strict: false }
+		);
 
-    const payload = {
-      name: {
-        firstname: "Joaquin",
-        lastname: "Arreguez",
-        secondName: "Eduardo",
-      },
-      age: 28,
-      address: "Avenida Siempre Viva 666",
-    };
+		const payload = {
+			name: {
+				firstname: "Joaquin",
+				lastname: "Arreguez",
+				secondName: "Eduardo",
+			},
+			age: 28,
+			address: "Avenida Siempre Viva 666",
+		};
 
-    const result = personSchema.validate(payload);
+		const result = personSchema.validate(payload);
 
-    expect(result).toBe(true);
-  });
+		expect(result).toBe(true);
+	});
 
 	it('Should fail validation if child schema data is incorrect', function() {
 		const schemaName = new Schemy({

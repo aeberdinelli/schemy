@@ -134,7 +134,7 @@ module.exports = class Schemy {
 				}
 
 				// Parse child schema and keep custom validator if it exists
-				else if (typeof properties.type === 'object') {
+				else if (typeof properties.type === 'object' && !(properties.type instanceof Schemy)) {
 					try {
 						const parsed = {};
 

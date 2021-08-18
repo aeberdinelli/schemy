@@ -1,4 +1,4 @@
-# Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> &nbsp;|&nbsp; [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) &nbsp;·&nbsp; [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) &nbsp;·&nbsp; [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
+# Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> | [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
 Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 15 KB!
 
 ## Features

@@ -1,8 +1,5 @@
-# Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> | [Documentation ↗](https://github.com/aeberdinelli/schemy/wiki)
+# Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> &nbsp;&nbsp;|&nbsp;&nbsp; [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) &nbsp;·&nbsp; [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki) &nbsp;·&nbsp; [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
 Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 15 KB!
-
-### Note
-**Breaking change:** Since version 2, now the *strict* setting was moved to a different argument and no longer has effect when used within the schema. Please take a look at [the changelog ↗](https://github.com/aeberdinelli/schemy/releases/tag/v2.0.0) for more details.
 
 ## Features
 ✅ **Ultra lightweight**<br />
@@ -20,6 +17,7 @@ Schemy is an extremely simple, light schema validation library. Perfect for ligh
 ✅ Supports validation with async/await, promises and sync<br />
 ✅ Unit tested with 100% coverage<br />
 ✅ Easy to read and full documentation<br />
+✅ [TypeScript support](https://github.com/aeberdinelli/schemy-ts)<br />
 
 ## Usage
 Install using npm: `npm install --save schemy`.
@@ -141,7 +139,7 @@ Validates the schema and returns true if input data passes validation. Returns f
 const exampleSchema = new Schemy({...});
 const input = {'name': 'Alan'};
 
-exampleSchema.validate(input)); // => true if input is valid, false otherwise
+exampleSchema.validate(input); // => true if input is valid, false otherwise
 ```
 <br>
 

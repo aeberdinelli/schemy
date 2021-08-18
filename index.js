@@ -9,7 +9,11 @@ module.exports = class Schemy {
 		
 		Schemy.plugins = [
 			...(Schemy.plugins || []),
-			...plugins
+			...plugins.map(plugin => {
+				// Inject Schemy into the plugin to make it available for use internally
+				plugin.Schemy = Schemy;
+				return plugin;
+			})
 		];
 	}
 
@@ -22,6 +26,11 @@ module.exports = class Schemy {
 				}
 			}
 		}
+	}
+
+	// Get current version
+	static getVersion() {
+		return require('./package.json').version;
 	}
 
 	/**
@@ -62,7 +71,6 @@ module.exports = class Schemy {
 		Schemy.triggerEvent.call(this, 'beforeParse', schema);
 
 		const settings = arguments[1] || {};
-
 		// If schema was already parsed by a plugin, prevent parsing it again
 		if (!this.schemaParsed) {
 			if (typeof schema !== 'object') {

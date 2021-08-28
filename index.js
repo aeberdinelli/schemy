@@ -15,6 +15,8 @@ module.exports = class Schemy {
 				return plugin;
 			})
 		];
+
+		Schemy.triggerEvent.call(this, 'pluginsInitialized', plugins);
 	}
 
 	// Trigger plugin methods based on event

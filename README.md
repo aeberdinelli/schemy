@@ -1,23 +1,107 @@
 # Schemy <sup>![Tests](https://github.com/aeberdinelli/schemy/workflows/Tests/badge.svg)</sup> | [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changes 📝](https://github.com/aeberdinelli/schemy/releases)
-Schemy is an extremely simple, light schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 15 KB!
+Schemy is an extremely simple, lightweight yet powerful schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 18 KB!
 
-## Features
-✅ **Ultra lightweight**<br />
-✅ **Ultra fast**<br />
-✅ **Plugin support**<br />
-✅ **Custom validations**<br />
-✅ Easy to read codebase<br />
-✅ Nested schemas validation<br />
-✅ Custom regex rules<br />
-✅ Built-in date support<br />
-✅ Built-in whitelist (enum) validations<br />
-✅ Built-in min/max rules for string lengths<br />
-✅ Built-in min/max rules for numbers<br />
-✅ Built-in validations for common strings format, like uuid<br />
-✅ Supports validation with async/await, promises and sync<br />
-✅ Unit tested with 100% coverage<br />
-✅ Easy to read and full documentation<br />
-✅ [TypeScript support](https://github.com/aeberdinelli/schemy-ts)<br />
+## Why Schemy?
+This is how Schemy looks compared to other validation libraries.
+<table>
+    <thead>
+        <tr>
+            <th>Feature / Library</th>
+            <th>schemy</th>
+            <th>ajv</th>
+            <th>joi</th>
+            <th>yup</th>
+            <th>tiny-schema-validator</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Size</td>
+            <td>18 KB</td>
+            <td>998 KB</td>
+            <td>515 KB</td>
+            <td>315 KB</td>
+            <td>195 KB</td>
+        </tr>
+        <tr>
+            <td>Fully tested</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+        </tr>
+        <tr>
+            <td>Custom validators</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+        </tr>
+        <tr>
+            <td>Plugin support</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td>Easy to read docs</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td>Fast</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td>Lightweight</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌ </td>
+            <td>❌ </td>
+        </tr>
+        <tr>
+            <td>Fully documented</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td>Easy to read codebase</td>
+            <td>✔</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td>Multi-language support</td>
+            <td>🧩</td>
+            <td>🧩</td>
+            <td>🧩</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+    </tbody>
+</table>
+
+<strong>References:</strong><br>
+🧩 Plugin required &nbsp;&nbsp;
+✔ Supported by default &nbsp;&nbsp;
+❌ Not supported &nbsp;&nbsp;
 
 ## Usage
 Install using npm: `npm install --save schemy`.

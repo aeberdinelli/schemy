@@ -46,6 +46,8 @@ const SchemySpanish = require('schemy-translations-spanish');
 Schemy.extend([SchemySpanish]);
 ```
 
+You can check the whole list of [available plugins in the wiki ↗](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) 
+
 ## API
 #### Static methods
 - [Schemy(object)](https://github.com/aeberdinelli/schemy/wiki#-usage) - Takes an object with the desired structure to validate later

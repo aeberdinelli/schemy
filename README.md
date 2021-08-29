@@ -4,7 +4,7 @@ Schemy is an extremely simple, lightweight yet powerful schema validation librar
 ## Why Schemy?
 This is how Schemy looks compared to other validation libraries.
 
-|Feature / Library|[Schemy](https://npmjs.com/package/schemy)|[ajv](https://npmjs.com/package/ajv)|[joi](https://npmjs.com/package/joi)|[yup](https://npmjs.com/package/yup)|[tiny](https://npmjs.com/package/tiny-schema-validator)|
+|Feature / Library|[Schemy](https://npmjs.com/package/schemy)|ajv|joi|yup|tiny|
 |:--- |:---: |:---: |:---: |:---: |:---: |
 |Size|18 KB|998 KB|515 KB|315 KB|195 KB|
 |Fully tested|✔|✔|✔|✔|✔|

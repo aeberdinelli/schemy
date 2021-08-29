@@ -3,105 +3,22 @@ Schemy is an extremely simple, lightweight yet powerful schema validation librar
 
 ## Why Schemy?
 This is how Schemy looks compared to other validation libraries.
-<table>
-    <thead>
-        <tr>
-            <th>Feature / Library</th>
-            <th>schemy</th>
-            <th>ajv</th>
-            <th>joi</th>
-            <th>yup</th>
-            <th>tiny-schema-validator</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Size</td>
-            <td>18 KB</td>
-            <td>998 KB</td>
-            <td>515 KB</td>
-            <td>315 KB</td>
-            <td>195 KB</td>
-        </tr>
-        <tr>
-            <td>Fully tested</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-        </tr>
-        <tr>
-            <td>Custom validators</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-        </tr>
-        <tr>
-            <td>Plugin support</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-        <tr>
-            <td>Easy to read docs</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-        <tr>
-            <td>Fast</td>
-            <td>✔</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-        <tr>
-            <td>Lightweight</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌ </td>
-            <td>❌ </td>
-        </tr>
-        <tr>
-            <td>Fully documented</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-        <tr>
-            <td>Easy to read codebase</td>
-            <td>✔</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-        <tr>
-            <td>Multi-language support</td>
-            <td>🧩</td>
-            <td>🧩</td>
-            <td>🧩</td>
-            <td>❌</td>
-            <td>❌</td>
-        </tr>
-    </tbody>
-</table>
 
-<strong>References:</strong><br>
-🧩 Plugin required &nbsp;&nbsp;
-✔ Supported by default &nbsp;&nbsp;
-❌ Not supported &nbsp;&nbsp;
+|Feature / Library|[Schemy](https://npmjs.com/package/schemy)|[ajv](https://npmjs.com/package/ajv)|[joi](https://npmjs.com/package/joi)|[yup](https://npmjs.com/package/yup)|[tiny](https://npmjs.com/package/tiny-schema-validator)|
+|:--- |:---: |:---: |:---: |:---: |:---: |
+|Size|18 KB|998 KB|515 KB|315 KB|195 KB|
+|Fully tested|✔|✔|✔|✔|✔|
+|Custom validators|✔|✔|✔|✔|✔|
+|Plugin support|✔|✔|✔|❌|❌|
+|Easy to read docs|✔|✔|✔|❌|❌|
+|Easy to use|✔|❌|✔|✔|❌|
+|Fast|✔|✔|❌|❌|❌|
+|Lightweight|✔|❌|❌|❌|❌|
+|Fully documented|✔|❌|❌|❌|❌|
+|Easy to read codebase|✔|❌|❌|❌|❌|
+|Multi-language support|🧩|🧩|🧩|❌|❌|
+
+🧩 Plugin required
 
 ## Usage
 Install using npm: `npm install --save schemy`.

@@ -18,7 +18,7 @@ This is how Schemy looks compared to other validation libraries.
 |Easy to read codebase|✔|❌|❌|❌|❌|
 |Multi-language support|🧩|🧩|🧩|❌|❌|
 
-🧩 Plugin required
+**🧩 Plugin required**
 
 ## Usage
 Install using npm: `npm install --save schemy`.
@@ -88,83 +88,16 @@ Schemy.extend([plugin1, plugin2, plugin3]);
 ```
 
 ## API
-### Schemy(object)
-Takes an object with the desired structure to validate later.
+#### Static methods
+- [Schemy(object)](https://github.com/aeberdinelli/schemy/wiki#-usage) - Takes an object with the desired structure to validate later
+- [Schemy.validate(data, schema)](https://github.com/aeberdinelli/schemy/wiki/Async-validation#async-validation) - Asynchronously validates some data against the passed schema
+- [Schemy.extend(Plugin)](https://github.com/aeberdinelli/schemy/wiki/Using-plugins) - Load one or multiple plugins into Schemy
 
-```javascript
-const Schemy = require('schemy');
+#### Instance methods
+- [validate(data)](https://github.com/aeberdinelli/schemy/wiki/Synchronous-validation) - Validates the schema
+- [getValidationErrors()](https://github.com/aeberdinelli/schemy/wiki/getValidationErrors) - Returns generated errors from the last validation
+- [getBody(includeAll = false)](https://github.com/aeberdinelli/schemy/wiki/getBody(includeAll-=-false)) - Returns the last validated input
 
-module.exports = new Schemy({
-    'name': {
-        type: String,
-        required: true
-    },
-    'age': {
-        type: Number,
-        min: 18,
-        max: 99
-    },
-    'phone': {
-        type: Number,
-    },
-    'pictures': {
-        type: [String]
-    },
-    'type': {
-        type: String,
-        enum: ['type1','type2','other']
-    },
-    'companyId': {
-        type: 'uuid/v1',
-    }
-});
-```
 <br>
 
-### Schemy.validate(data, SchemyInstance)
-Asynchronously validates some data against the passed schema. Throws error on failure.
-
-```javascript
-const exampleSchema = new Schemy({...});
-const input = {'name': 'Alan'};
-
-async function() {
-    await Schemy.validate(input, exampleSchema);
-}
-```
-
-### Schemy*instance*.validate(data)
-Validates the schema and returns true if input data passes validation. Returns false otherwise.
-
-```javascript
-const exampleSchema = new Schemy({...});
-const input = {'name': 'Alan'};
-
-exampleSchema.validate(input); // => true if input is valid, false otherwise
-```
-<br>
-
-### Schemy*instance*.getValidationErrors()
-If `Schemy.validate(...)` was called before, returns an array with all the validation errors of the last validation.
-
-```javascript
-const exampleSchema = new Schemy({
-    'age': {
-        type: Number,
-        required: 'true'
-    }
-});
-
-const input = {'age': '25'};
-
-if (!exampleSchema.validate(input)) {
-    console.log(
-        exampleSchema.getValidationErrors()
-    ); // => ['Property age is string, expected number'] 
-}
-```
-<br>
-
-### Schemy*instance*.getBody(includeAll = false)
-Returns the validated body as an object from the last `Schemy.validate()` call.
-If includeAll is set to true, then schemy will return the object with all the extra properties not defined in the original schema.
+[Full documentation ↗️](https://github.com/aeberdinelli/schemy/wiki)

@@ -183,7 +183,10 @@ module.exports = class Schemy {
 	validate(data) {
 		Schemy.triggerEvent.call(this, 'beforeValidate', data);
 
-		this.validationErrors = [];
+		if (!this.validationErrors) {
+			this.validationErrors = [];
+		}
+		
 		this.data = data;
 
 		if (!data || typeof data !== 'object') {

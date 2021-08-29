@@ -27,46 +27,20 @@ Then, create a schema with the desired properties and their types:
 ```javascript
 const Schemy = require('schemy');
 
-const nameSchema = new Schemy({
-    'firstname': String,
-    'lastname': String
-});
-
 const characterSchema = new Schemy({
     'name': {
-        type: nameSchema, // You can also use nested schemas
+        type: String,
         required: true
-    },
-    // You can also use nested schemas with our short format
-    'address': {
-        street: String,
-        number: Number
-    },
-    // Schemy has some helpers to validate string formats like v1 uuid
-    'id': {
-        type: 'uuid/v1'
     }
 });
-```
-
-Now, to validate that schema in your validation code:
-```javascript
-// This is a mock of some input we want to validate
-const userInput = { name: 'Alan' };
 
 // Validate against input data
-if (!characterSchema.validate(userInput)) {
-    characterSchema.getValidationErrors(); // => ['Missing required property age']
+if (!characterSchema.validate(someData)) {
+    characterSchema.getValidationErrors(); // => [ 'Missing required property name' ]
 }
 
 // You can also validate asynchronously
-await Schemy.validate(userInput, characterSchema);
-
-// Or, using promises
-Schemy
-    .validate(userInput, characterSchema)
-    .then(passed => {...})
-    .catch(validationErrors => {...});
+await Schemy.validate(someData, characterSchema);
 ```
 
 ## Plugins

@@ -39,18 +39,11 @@ await Schemy.validate(someData, characterSchema);
 Schemy can be easily extended with new functionality. For example, we have support for spanish language:
 
 ```javascript
-const Schemy = require('schemy');
-
 // Require the plugin
 const SchemySpanish = require('schemy-translations-spanish');
 
-// Call Schemy.extend() with the plugin
-Schemy.extend(SchemySpanish);
-
-// If you have multiple plugins, you can pass an array:
-Schemy.extend([plugin1, plugin2, plugin3]);
-
-// Then use schemy as usual!
+// Call Schemy.extend() with the plugin or with an array of plugins
+Schemy.extend([SchemySpanish]);
 ```
 
 ## API

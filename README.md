@@ -7,10 +7,10 @@ This is how Schemy looks compared to other validation libraries.
 |Feature / Library|[Schemy](https://npmjs.com/package/schemy)|ajv|joi|yup|tiny|
 |:--- |:---: |:---: |:---: |:---: |:---: |
 |Size|18 KB|998 KB|515 KB|315 KB|195 KB|
-|Lightweight|✔|❌|❌|❌|❌|
-|Fully documented|✔|❌|❌|❌|❌|
-|Easy to read codebase|✔|❌|❌|❌|❌|
-|Plugin support|✔|✔|✔|❌|❌|
+|Lightweight|✅|❌|❌|❌|❌|
+|Fully documented|✅|❌|❌|❌|❌|
+|Easy to read codebase|✅|❌|❌|❌|❌|
+|Plugin support|✅|✅|✅|❌|❌|
 
 ## Usage
 Install using npm: `npm install --save schemy`.

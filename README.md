@@ -40,10 +40,15 @@ Schemy can be easily extended with new functionality. For example, we have suppo
 
 ```javascript
 // Require the plugin
-const SchemySpanish = require('schemy-translations-spanish');
+const ReferenceSupport = require('schemy-reference-support');
 
 // Call Schemy.extend() with the plugin or with an array of plugins
-Schemy.extend([SchemySpanish]);
+Schemy.extend(ReferenceSupport);
+
+new Schemy({
+    password: String,
+    confirm: Schemy.$ref('password')
+});
 ```
 
 You can check the whole list of [available plugins in the wiki ↗](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) 

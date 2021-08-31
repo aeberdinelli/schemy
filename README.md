@@ -1,18 +1,7 @@
 # Schemy 
 ### [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
 
-Schemy is an extremely simple, lightweight yet powerful schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. It weights less than 18 KB!
-
-## Why Schemy?
-This is how Schemy looks compared to other validation libraries.
-
-|Feature / Library|[Schemy](https://npmjs.com/package/schemy)|ajv|joi|yup|tiny|
-|:--- |:---: |:---: |:---: |:---: |:---: |
-|Size|18 KB|998 KB|515 KB|315 KB|195 KB|
-|Lightweight|✅|❌|❌|❌|❌|
-|Fully documented|✅|❌|❌|❌|❌|
-|Easy to read codebase|✅|❌|❌|❌|❌|
-|Plugin support|✅|✅|✅|❌|❌|
+Schemy is an extremely simple, lightweight yet powerful schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. **It weights less than 18 KB!**
 
 ## Usage
 Install using npm: `npm install --save schemy`.

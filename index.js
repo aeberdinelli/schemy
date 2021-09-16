@@ -181,13 +181,10 @@ module.exports = class Schemy {
 	 * @returns {Boolean} true if validated correctly, false otherwise
 	 */
 	validate(data) {
-		Schemy.triggerEvent.call(this, 'beforeValidate', data);
-
-		if (!this.validationErrors) {
-			this.validationErrors = [];
-		}
-		
+		this.validationErrors = [];
 		this.data = data;
+
+		Schemy.triggerEvent.call(this, 'beforeValidate', data);
 
 		if (!data || typeof data !== 'object') {
 			this.validationErrors.push('Data passed to validate is incorrect. It must be an object.');

@@ -1,6 +1,6 @@
 {
   "name": "schemy",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "A (very) simple, lightweight schema validation library",
   "main": "index.js",
   "scripts": {

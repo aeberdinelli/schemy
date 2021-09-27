@@ -1,0 +1,165 @@
+:root {
+	--background: #fff;
+	--color: #6e6e6e;
+	--word: #000;
+	--button-background: #379de0;
+	--button-background-hover: #134d74;
+	--button-color: #fff;
+
+	/* monokai */
+	--code-background: #282922;
+	--code-color: #fff;
+	--code-selection: #3e3d31;
+	--code-gutter: #90918a;
+	--code-keyword: #1cdbf2;
+	--code-lang: #ff0071;
+	--code-string: #eadb61;
+	--code-indent-guide: #474841;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #282922;
+		--color: #999;
+		--word: #fff;
+		--button-background: #379de0;
+		--button-background-hover: #379de0;
+		--button-color: #fff;
+		
+		--code-background: #3e3d31;
+		--code-selection: #282922;
+		--code-indent-guide: #5e5f5b;
+	}
+}
+
+a {
+	outline: 0;
+	border: none;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 2.2vw;
+	color: var(--color);
+	background: var(--background);
+}
+
+.logo {
+	width: 50vw;
+}
+
+.example {
+	font-family: monospace;
+	text-align: left;
+	font-size: 70%;
+	margin: 15px auto;
+	background: var(--code-background);
+	color: var(--code-color);
+	padding: 20px;
+	white-space: nowrap;
+	overflow: auto;
+	counter-reset: line;
+	width: 80%;
+}
+.example ::selection {
+	background-color: var(--code-selection);
+}
+.line {
+	display: block;
+	white-space: nowrap;
+	min-height: 2vw;
+	counter-increment: line;
+}
+.example .line::before {
+	content: counter(line);
+	padding-right: 40px;
+	padding-left: 10px;
+	color: var(--code-gutter);
+}
+.example .line.indent::before {
+	border-right: 2px dotted var(--code-indent-guide);
+}
+.keyword {
+	color: var(--code-keyword);
+}
+.lang {
+	color:var(--code-lang);
+}
+.string {
+	color: var(--code-string);
+}
+
+.slogan {
+	transition: 300s linear;
+	margin-top: -3%;
+	margin-bottom: 3%;
+}
+.slogan .word {
+	display: inline-table;
+	color: var(--word);
+	transition: 300ms;
+	animation: word;
+	animation-duration: 3s;
+	animation-delay: 3s;
+	animation-iteration-count: infinite;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	width: 40vw;
+	margin: 4% auto;
+}
+.buttons a {
+	text-transform: lowercase;
+	text-decoration: none;
+	background: var(--button-background);
+	color: var(--button-color);
+	padding: 10px 20px;
+	border-radius: 15px;
+	transition: 300ms ease;
+}
+.buttons a:hover, .buttons a:active, .buttons a:focus {
+	background: var(--button-background-hover);
+}
+
+@keyframes word {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	body {
+		font-size: 20px;
+	}
+	.logo {
+		width: 100%;
+	}
+	.slogan {
+		margin-bottom: 10%;
+	}
+	.line::before {
+		display: none;
+	}
+	.buttons {
+		width: 100%;
+		flex-wrap: wrap;
+		margin-top: 10%;
+	}
+	.buttons a {
+		margin-top: 15px;
+		font-size: 20px;
+		border-radius: 7px;
+	}
+}

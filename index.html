@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Schemy - The lightest validation library</title>
+	<link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+	<header>
+		<a href="https://github.com/aeberdinelli/schemy">
+			<img src="img/logo_variant2.png" alt="Schemy" class="logo">
+		</a>
+	</header>
+	<div class="slogan">
+		The <div class="word">best</div> javascript schema validation library
+	</div>
+	<div class="example">
+		<!--
+			<div class="line"><span class="keyword">const</span> Schemy <span class="lang">=</span> <span class="keyword">require</span>(<span class="string">'schemy'</span>);</div>
+			<div class="line"></div>
+		-->
+		<div class="line"><span class="keyword">const</span> SchemaUser <span class="lang">=</span> <span class="lang">new</span> Schemy({</div>
+		<div class="line indent">&nbsp;&nbsp;&nbsp;&nbsp;email: <span class="keyword">String</span>,</div>
+		<div class="line indent">&nbsp;&nbsp;&nbsp;&nbsp;password: <span class="keyword">String</span>,</div>
+		<div class="line indent">&nbsp;&nbsp;&nbsp;&nbsp;confirm: <span class="keyword">Schemy</span>.<span class="keyword">$ref</span>(<span class="string">'password'</span>)</div>
+		<div class="line">});</div>
+		<div class="line"></div>
+		<div class="line"><span class="keyword">SchemaUser</span>.<span class="keyword">validate</span>(input);</div>
+	</div>
+	<div class="buttons">
+		<a href="https://github.com/aeberdinelli/schemy/wiki">Read docs</a>
+		<a href="https://github.com/aeberdinelli/schemy/wiki/List-of-plugins">Find plugins</a>
+	</div>
+	<script src="js/word.js"></script>
+</body>
+</html>

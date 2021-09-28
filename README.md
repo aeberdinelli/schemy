@@ -1,5 +1,7 @@
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/1413883/134991554-4ff6464e-c297-4367-8191-088f9919a5e1.png" height="110">
+    <a href="https://schemy.js.org/">
+        <img src="https://user-images.githubusercontent.com/1413883/134991554-4ff6464e-c297-4367-8191-088f9919a5e1.png" height="110">
+    </a>
 </div>
 
 ### [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)

@@ -30,7 +30,7 @@ await Schemy.validate(someData, characterSchema);
 ```
 
 ## Plugins
-Schemy can be easily extended with new functionality. For example, we have support for spanish language:
+Schemy can be easily extended with new functionality. For example, this adds a feature to reference properties within the schema.
 
 ```javascript
 // Require the plugin

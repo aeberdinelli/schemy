@@ -1,4 +1,11 @@
-# Schemy 
+<div align="center">
+    <a href="https://schemy.js.org/">
+        <img src="https://user-images.githubusercontent.com/1413883/134991554-4ff6464e-c297-4367-8191-088f9919a5e1.png" height="110">
+    </a>
+</div>
+
+<hr>
+
 ### [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
 
 Schemy is an extremely simple, lightweight yet powerful schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. **It weights less than 18 KB!**
@@ -27,7 +34,7 @@ await Schemy.validate(someData, characterSchema);
 ```
 
 ## Plugins
-Schemy can be easily extended with new functionality. For example, we have support for spanish language:
+Schemy can be easily extended with new functionality. For example, this adds a feature to reference properties within the schema.
 
 ```javascript
 // Require the plugin

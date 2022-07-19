@@ -297,6 +297,7 @@ module.exports = class Schemy {
 				else if (typeof properties.type === 'object' && Array.isArray(properties.type)) {
 					if (!Array.isArray(data[key])) {
 						this.validationErrors.push(`Property ${key} is ${typeof data[key]}, expected array`);
+						continue;
 					}
 
 					if (typeof properties.min !== 'undefined' && data[key].length < properties.min) {

@@ -13,6 +13,19 @@ describe('Schemy array validation', function() {
         })).toBe(true);
     });
 
+    it('Should fail if expected an array and another type given', function() {
+    	const productSchema = new Schemy({
+    		something: {
+    			type: [String]
+    		}
+    	});
+
+    	const input = { something: 'not an array' };
+
+    	expect(productSchema.validate(input)).toBe(false);
+    	expect(productSchema.getValidationErrors()).toEqual(['Property something is string, expected array']);
+    });
+
     it('Should validate all items in array of schemy passes their schema validation', function() {
 		const productSchema = new Schemy({
 			price: {type: Number, required: true}

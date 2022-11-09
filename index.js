@@ -93,8 +93,20 @@ module.exports = class Schemy {
 								const { custom } = schema[key];
 								parsed.custom = custom;
 							}
-	
-							parsed.type = new Schemy(properties);
+							
+							let flex = false;
+							let _props = properties;
+
+							//? Inherit flex property from the array latest children, so [Schemy] won't be always strict
+							while (Array.isArray(_props)) {
+								_props = _props[0];
+							}
+
+							if (_props.flex !== undefined) flex = _props.flex;
+							else if(_props.type && _props.type.flex !== undefined) flex = _props.type.flex;
+							else flex = false;
+
+							parsed.type = new Schemy(properties, { strict: !flex });
 							parsed.required = !!properties.required;
 	
 							schema[key] = parsed;

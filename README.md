@@ -4,7 +4,7 @@
     </a>
 </div>
 
-### [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases)
+### [Docs 📖](https://github.com/aeberdinelli/schemy/wiki) · [Plugins 🧩](https://github.com/aeberdinelli/schemy/wiki/List-of-plugins) · [Changelog 📝](https://github.com/aeberdinelli/schemy/releases) · [Donate 💰](https://www.paypal.com/donate/?cmd=_donations&business=aeberdinelli%40gmail.com&item_name=Schemy+library&currency_code=USD&source=url)
 
 Schemy is an extremely simple, lightweight yet powerful schema validation library. Perfect for lightweight-oriented projects like cloud functions where size and speed are key features. **It weights less than 18 KB!**
 

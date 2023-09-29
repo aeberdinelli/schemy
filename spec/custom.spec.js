@@ -9,7 +9,7 @@ describe('Schemy custom validations', function() {
             }
         });
 
-        schema.validate({name: 'incorrect'});
+        schema.validate({ name: 'incorrect' });
 
         expect(schema.getValidationErrors()[0]).toBe('Name is incorrect');
     });
@@ -22,7 +22,7 @@ describe('Schemy custom validations', function() {
             }
         });
 
-        expect(schema.validate({name: 'incorrect'})).toBe(false);
+        expect(schema.validate({ name: 'incorrect' })).toBe(false);
     });
 
     it('Should pass validation if custom validator returns true', function() {
@@ -33,6 +33,6 @@ describe('Schemy custom validations', function() {
             }
         });
 
-        expect(schema.validate({name: 'correct'})).toBe(true);
+        expect(schema.validate({ name: 'correct' })).toBe(true);
     });
 });

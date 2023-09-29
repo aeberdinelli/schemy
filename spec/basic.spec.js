@@ -1,7 +1,7 @@
 const Schemy = require('../index');
 
 describe('Schemy basic validations', function() {
-	it('Should validate false if trying to validate empty data', function() {
+	it('Should throw trying to validate empty data', function() {
 		const schema = new Schemy({
 			title: {
 				type: String,
@@ -9,7 +9,7 @@ describe('Schemy basic validations', function() {
 			}
 		});
 		
-		expect(schema.validate()).toBe(false);
+		expect(() => schema.validate()).toThrow();
 	});
 
 	it('Should validate false if passed a not declared property', function() {

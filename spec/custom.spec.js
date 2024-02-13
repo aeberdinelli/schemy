@@ -1,6 +1,19 @@
 const Schemy = require('../index');
 
 describe('Schemy custom validations', function() {
+    it('Should apply custom message to validation error', function() {
+        const schema = new Schemy({
+            name: {
+                type: String,
+                required: true,
+                message: 'Name is required'
+            }
+        });
+
+        schema.validate({});
+        expect(schema.getValidationErrors()[0]).toBe('Name is required');
+    });
+
     it('Should fail validation if custom validator returns a string', function() {
         const schema = new Schemy({
             name: {
